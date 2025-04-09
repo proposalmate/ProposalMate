@@ -1,0 +1,24 @@
+{
+  "name": "proposalmate-backend",
+  "version": "1.0.0",
+  "description": "Backend for ProposalMate application",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "jest --testTimeout=10000"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
+  "keywords": [
+    "proposal",
+    "saas",
+    "subscription"
+  ],
+  "author": "",
+  "license": "ISC"
+}

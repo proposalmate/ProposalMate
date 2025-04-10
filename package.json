@@ -7,7 +7,7 @@
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "test": "jest --testTimeout=10000"
-  },
+  }, 
   "jest": {
     "testEnvironment": "node",
     "coveragePathIgnorePatterns": [
@@ -19,6 +19,9 @@
     "saas",
     "subscription"
   ],
-  "author": "",
+  "engines": {
+  "node": "16.x"
+}
+ "author": "",
   "license": "ISC"
 }

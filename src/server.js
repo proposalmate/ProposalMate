@@ -1,9 +1,10 @@
+const path = require('path');
 const express = require('express');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
 const cors = require('cors');
 const connectDB = require('./config/db');
-const config = require('./config/config');
+const config = require('./src/config/config');
 
 // Load env vars
 dotenv.config();

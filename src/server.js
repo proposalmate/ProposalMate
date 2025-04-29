@@ -39,7 +39,7 @@ app.use('/api/v1/stripe', require('./routes/stripe'));
 app.use('/dashboard', require('./routes/dashboard'));
 
 // Serve static files
-app.use(express.static(path.join(__dirname, 'frontend')));
+app.use(express.static(path.join(__dirname)));
 app.get('/', (req, res) => {res.send('Welcome to ProposalMate API!');});
 // Error handler middleware
 app.use((err, req, res, next) => {

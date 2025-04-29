@@ -29,9 +29,6 @@ if (process.env.NODE_ENV === 'development') {
 
 // Define routes
 app.use(express.static(path.join(__dirname, '..', 'frontend')));
-app.get('/', (req, res) => {
-  res.send('ProposalMate API is running!');
-});
 
 app.use('/api/v1/auth', require('./routes/auth'));
 app.use('/api/v1/proposals', require('./routes/proposals'));
@@ -39,6 +36,7 @@ app.use('/api/v1/stripe', require('./routes/stripe'));
 app.use('/dashboard', require('./routes/dashboard'));
 
 // Serve static files
+app.use(express.static(path.join(__dirname, 'frontend')));
 app.use(express.static(path.join(__dirname)));
 app.get('/', (req, res) => {res.send('Welcome to ProposalMate API!');});
 // Error handler middleware

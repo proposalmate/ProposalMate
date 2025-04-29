@@ -35,10 +35,13 @@ app.use('/api/v1/proposals', require('./routes/proposals'));
 app.use('/api/v1/stripe', require('./routes/stripe'));
 app.use('/dashboard', require('./routes/dashboard'));
 
-// Serve static files
-app.use(express.static(path.join(__dirname, 'frontend')));
+// Serve static frontend from root folder
 app.use(express.static(path.join(__dirname)));
-app.get('/', (req, res) => {res.send('Welcome to ProposalMate API!');});
+
+// Send index.html for the root route
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
 // Error handler middleware
 app.use((err, req, res, next) => {
   let error = { ...err };

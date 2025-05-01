@@ -44,7 +44,7 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // Send index.html for the root route
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname,'..', 'index.html'));
+  res.sendFile(path.resolve(__dirname,'..', 'index.html'));
 });
 // Error handler middleware
 app.use((err, req, res, next) => {

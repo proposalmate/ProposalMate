@@ -37,6 +37,10 @@ app.use('/dashboard', require('./routes/dashboard'));
 
 // Serve static frontend from root folder
 app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname, '..', 'css')));
+app.use(express.static(path.join(__dirname, '..', 'js')));
+app.use(express.static(path.join(__dirname, '..', 'assets')));
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // Send index.html for the root route
 app.get('/', (req, res) => {

@@ -43,8 +43,15 @@ app.use(express.static(path.join(__dirname, '..', 'assets')));
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // Send index.html for the root route
+const indexPath = path.resolve(__dirname, '../index.html');
+
 app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname,'..', 'index.html'));
+  res.sendFile(indexPath, function (err) {
+    if (err) {
+      console.error('Failed to send index.html:', err);
+      res.status(err.status).end();
+    }
+  });
 });
 // Error handler middleware
 app.use((err, req, res, next) => {

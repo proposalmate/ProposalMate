@@ -43,7 +43,7 @@ app.use(express.static(path.join(__dirname, '..', 'assets')));
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // Send index.html for the root route
-app.get('/', (req, res) => {
+app.get(['/', '/index.html'], (req, res) => {
   res.sendFile(path.resolve(__dirname, '..', 'index.html'));
 });
 // Error handler middleware

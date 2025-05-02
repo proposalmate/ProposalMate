@@ -38,25 +38,31 @@ function initDashboardCharts() {
     updateDashboardStats();
 }
 
-// Update dashboard statistics
 function updateDashboardStats() {
-    // In a real implementation, this would fetch data from an API
-    const stats = {
-        totalProposals: 12,
-        sentProposals: 5,
-        viewedProposals: 3,
-        acceptedProposals: 2,
-        conversionRate: '40%',
-        averageValue: '£1,250'
-    };
-    
-    // Update stat cards
-    Object.keys(stats).forEach(key => {
-        const element = document.querySelector(`.stat-${key}`);
-        if (element) {
-            element.textContent = stats[key];
-        }
-    });
+    fetch('/api/v1/proposals')
+        .then(res => res.json())
+        .then(data => {
+            if (!data.success) throw new Error('Failed to load proposals');
+
+            const stats = {
+                totalProposals: data.data.length,
+                sentProposals: data.data.filter(p => p.status === 'sent').length,
+                viewedProposals: data.data.filter(p => p.status === 'viewed').length,
+                acceptedProposals: data.data.filter(p => p.status === 'accepted').length,
+                conversionRate: data.data.length ? `${Math.round((data.data.filter(p => p.status === 'accepted').length / data.data.length) * 100)}%` : '0%',
+                averageValue: '£' + Math.floor(Math.random() * 1000 + 500) // placeholder
+            };
+
+            Object.keys(stats).forEach(key => {
+                const element = document.querySelector(`.stat-${key}`);
+                if (element) {
+                    element.textContent = stats[key];
+                }
+            });
+        })
+        .catch(err => {
+            console.error('Error loading dashboard stats:', err);
+        });
 }
 
 // Setup proposal filtering

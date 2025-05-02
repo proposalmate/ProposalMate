@@ -185,7 +185,22 @@ function showCreateProposalModal() {
             const dueDate = document.getElementById('proposal-due-date').value;
             
             // Simulate form submission
-            simulateProposalCreation(title, client, template, dueDate);
+            fetch('/api/v1/proposals', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({ title, client, template, dueDate })
+})
+.then(res => res.json())
+.then(data => {
+  alert('Proposal created successfully!');
+  location.reload();
+})
+.catch(err => {
+  console.error(err);
+  alert('There was an error creating the proposal.');
+});
             
             // Close modal
             modal.classList.remove('active');

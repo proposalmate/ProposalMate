@@ -166,7 +166,13 @@ function setupSmoothScrolling() {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
             
-            const target = document.querySelector(this.getAttribute('href'));
+            const selector = this.getAttribute('href');
+if (selector && selector.startsWith('#')) {
+  const target = document.querySelector(selector);
+  if (target) {
+    target.scrollIntoView({ behavior: 'smooth' });
+  }
+}
             if (target) {
                 target.scrollIntoView({
                     behavior: 'smooth'

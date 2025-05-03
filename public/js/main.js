@@ -294,3 +294,4 @@ function setupSidebarNavigation() {
 document.addEventListener('DOMContentLoaded', function () {
     setupSidebarNavigation();
 });
+}

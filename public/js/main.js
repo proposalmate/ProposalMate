@@ -167,7 +167,7 @@ function setupSmoothScrolling() {
             e.preventDefault();
             
             const selector = this.getAttribute('href');
-if (selector && selector.startsWith('#')) {
+if (selector && selector.startsWith('#') && selector !== '#') {
   const target = document.querySelector(selector);
   if (target) {
     target.scrollIntoView({ behavior: 'smooth' });

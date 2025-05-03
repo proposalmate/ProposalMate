@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
         initDashboardCharts();
         setupProposalFilters();
         setupCreateProposalForm();
+        setupSidebarNavigation();
     }
 });
 

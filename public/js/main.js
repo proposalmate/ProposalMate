@@ -279,3 +279,23 @@ function setupDashboardInteractions() {
         });
     });
 }
+// Setup Sidebar Navigation
+function setupSidebarNavigation() {
+    const sidebarLinks = document.querySelectorAll('.sidebar a');
+
+    sidebarLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = this.getAttribute('href');
+
+            if (target && !target.startsWith('#')) {
+                window.location.href = target;
+            }
+        });
+    });
+}
+
+// Initialize Sidebar Navigation
+document.addEventListener('DOMContentLoaded', function () {
+    setupSidebarNavigation();
+});

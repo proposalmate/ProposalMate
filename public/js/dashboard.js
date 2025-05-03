@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', function() {
         setupProposalFilters();
         setupCreateProposalForm();
         setupSidebarNavigation();
+        loadProposalsFromAPI();
+        updateWelcomeName();
     }
 });
 
@@ -289,4 +291,62 @@ function simulateProposalCreation(title, client, template, dueDate) {
             notification.remove();
         }, 3000);
     }, 1500);
+}
+
+// Load real proposals from the backend
+function loadProposalsFromAPI() {
+    fetch('/api/v1/proposals')
+        .then(res => res.json())
+        .then(data => {
+            if (data.success && Array.isArray(data.data)) {
+                const proposalList = document.querySelector('.proposal-list');
+                if (proposalList) proposalList.innerHTML = '';
+
+                data.data.forEach(proposal => {
+                    const proposalItem = document.createElement('div');
+                    proposalItem.className = 'proposal-item';
+
+                    proposalItem.innerHTML = `
+                        <div class="proposal-info">
+                            <div class="proposal-title">${proposal.title}</div>
+                            <div class="proposal-date">Created: ${new Date(proposal.createdAt).toLocaleDateString()}</div>
+                        </div>
+                        <div class="proposal-status status-${proposal.status.toLowerCase()}">${proposal.status}</div>
+                        <div class="proposal-actions">
+                            <a href="#" class="btn-icon"><i class="fas fa-eye"></i></a>
+                            <a href="#" class="btn-icon"><i class="fas fa-edit"></i></a>
+                            <a href="#" class="btn-icon"><i class="fas fa-trash"></i></a>
+                        </div>
+                    `;
+
+                    const container = document.querySelector('.proposal-list');
+                    if (container) container.appendChild(proposalItem);
+                });
+            }
+        })
+        .catch(err => {
+            console.error('Failed to load proposals:', err);
+        });
+}
+
+// Update welcome message with real user name
+function updateWelcomeName() {
+    fetch('/api/v1/auth/me')
+        .then(res => res.json())
+        .then(data => {
+            if (data.success && data.data && data.data.name) {
+                const welcomeTitle = document.querySelector('.welcome h1');
+                if (welcomeTitle) {
+                    welcomeTitle.textContent = `Welcome, ${data.data.name}`;
+                }
+
+                const userNamePlaceholder = document.getElementById('user-name-placeholder');
+                if (userNamePlaceholder) {
+                    userNamePlaceholder.textContent = data.data.name;
+                }
+            }
+        })
+        .catch(err => {
+            console.error('Failed to update user name:', err);
+        });
 }

@@ -18,3 +18,9 @@ package-lock.json
 # Deployment files
 *.yml
 *.yaml
+
+# Ignore system files
+AppData/
+appdata/
+*.jtx
+*.db

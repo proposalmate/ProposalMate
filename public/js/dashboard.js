@@ -194,11 +194,17 @@ function showCreateProposalModal() {
             fetch('/api/v1/proposals', {
   method: 'POST',
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
   },
   body: JSON.stringify({ title, client, template, dueDate })
 })
-.then(res => res.json())
+.then(res => {
+  if (!res.ok) {
+    throw new Error('Failed to create proposal');
+  }
+  return res.json();
+})
 .then(data => {
   alert('Proposal created successfully!');
   location.reload();
@@ -207,6 +213,7 @@ function showCreateProposalModal() {
   console.error(err);
   alert('There was an error creating the proposal.');
 });
+
             
             // Close modal
             modal.classList.remove('active');

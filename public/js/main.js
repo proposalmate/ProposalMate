@@ -166,20 +166,19 @@ function setupSmoothScrolling() {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
             
-            const selector = this.getAttribute('href');
-if (selector && selector.startsWith('#') && selector !== '#') {
-  const target = document.querySelector(selector);
-  if (target) {
-    target.scrollIntoView({ behavior: 'smooth' });
-  }
-}
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth'
-                });
-            }
-        });
+ function setupSmoothScrolling() {
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const selector = this.getAttribute('href');
+      if (selector && selector.startsWith('#') && selector !== '#') {
+        const target = document.querySelector(selector);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
     });
+  });
 }
 
 // Initialize Interactive Elements

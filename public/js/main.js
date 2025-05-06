@@ -324,7 +324,7 @@ function setupCreateProposalForm() {
         window.location.href = 'dashboard.html';
     });
 }
-}
+
 // Load proposals from localStorage to dashboard
 function loadProposalsToDashboard() {
     const listContainer = document.querySelector('.proposal-list');

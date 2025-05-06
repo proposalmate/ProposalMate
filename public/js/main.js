@@ -289,8 +289,44 @@ function setupSidebarNavigation() {
         });
     });
 }
+// Handle Create Proposal Form Submission
+function setupCreateProposalForm() {
+    const form = document.getElementById('create-proposal-form');
+    if (!form) return;
 
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const title = document.getElementById('proposal-title').value.trim();
+        const client = document.getElementById('proposal-client').value.trim();
+        const template = document.getElementById('proposal-template').value;
+        const dueDate = document.getElementById('proposal-due-date').value;
+
+        if (!title || !client || !template) {
+            alert('Please fill in all required fields.');
+            return;
+        }
+
+        const newProposal = {
+            title,
+            client,
+            template,
+            dueDate,
+            status: 'draft'
+        };
+
+        // Save to localStorage
+        let proposals = JSON.parse(localStorage.getItem('proposals') || '[]');
+        proposals.push(newProposal);
+        localStorage.setItem('proposals', JSON.stringify(proposals));
+
+        alert('Proposal created successfully!');
+        window.location.href = 'dashboard.html';
+    });
+}
+}
 // Initialize Sidebar Navigation
 document.addEventListener('DOMContentLoaded', function () {
     setupSidebarNavigation();
+    setupCreateProposalForm();
 });

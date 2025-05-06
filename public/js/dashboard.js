@@ -185,38 +185,30 @@ function showCreateProposalModal() {
         });
         
         form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get form data
-            const title = document.getElementById('proposal-title').value;
-            const client = document.getElementById('proposal-client').value;
-            const template = document.getElementById('proposal-template').value;
-            const dueDate = document.getElementById('proposal-due-date').value;
-            
-            // Simulate form submission
-            fetch('/api/v1/proposals', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${localStorage.getItem('token')}`
-  },
-  body: JSON.stringify({ title, client, template, dueDate })
-})
-.then(res => {
-  if (!res.ok) {
-    throw new Error('Failed to create proposal');
-  }
-  return res.json();
-})
-.then(data => {
-  alert('Proposal created successfully!');
-  location.reload();
-})
-.catch(err => {
-  console.error(err);
-  alert('There was an error creating the proposal.');
-});
+    e.preventDefault();
 
+    const title = document.getElementById('proposal-title').value;
+    const client = document.getElementById('proposal-client').value;
+    const template = document.getElementById('proposal-template').value;
+    const dueDate = document.getElementById('proposal-due-date').value;
+
+    fetch('/api/v1/proposals', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ title, client, template, dueDate })
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert('Proposal created successfully!');
+        location.href = 'dashboard.html';
+    })
+    .catch(err => {
+        console.error(err);
+        alert('There was an error creating the proposal.');
+    });
+});
             
             // Close modal
             modal.classList.remove('active');

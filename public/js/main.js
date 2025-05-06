@@ -325,8 +325,34 @@ function setupCreateProposalForm() {
     });
 }
 }
+// Load proposals from localStorage to dashboard
+function loadProposalsToDashboard() {
+    const listContainer = document.querySelector('.proposal-list');
+    if (!listContainer) return;
+
+    const proposals = JSON.parse(localStorage.getItem('proposals') || '[]');
+    listContainer.innerHTML = '';
+
+    if (proposals.length === 0) {
+        listContainer.innerHTML = '<p>No proposals found.</p>';
+        return;
+    }
+
+    proposals.forEach(proposal => {
+        const item = document.createElement('div');
+        item.className = 'proposal-item';
+        item.innerHTML = `
+            <h3 class="proposal-title">${proposal.title}</h3>
+            <p>Client: ${proposal.client}</p>
+            <p>Template: ${proposal.template}</p>
+            <p>Due: ${proposal.dueDate || 'Not set'}</p>
+        `;
+        listContainer.appendChild(item);
+    });
+}
 // Initialize Sidebar Navigation
 document.addEventListener('DOMContentLoaded', function () {
     setupSidebarNavigation();
     setupCreateProposalForm();
+    loadProposalsToDashboard();
 });

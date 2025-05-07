@@ -97,7 +97,7 @@ if (!document.querySelector('.mobile-menu-toggle')) {
         });
     }
 }
-}
+
 
 // Form Validation
 function setupFormValidation() {

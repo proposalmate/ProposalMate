@@ -359,18 +359,8 @@ function loadProposalsToDashboard() {
     document.querySelector('.stat-viewedProposals').textContent = 0;
     document.querySelector('.stat-acceptedProposals').textContent = 0;
 }
-    proposals.forEach(proposal => {
-        const item = document.createElement('div');
-        item.className = 'proposal-item';
-        item.innerHTML = `
-            <h3 class="proposal-title">${proposal.title}</h3>
-            <p>Client: ${proposal.client}</p>
-            <p>Template: ${proposal.template}</p>
-            <p>Due: ${proposal.dueDate || 'Not set'}</p>
-        `;
-        listContainer.appendChild(item);
-    });
-}
+    
+
 // Initialize Sidebar Navigation
 document.addEventListener('DOMContentLoaded', function () {
     setupSidebarNavigation();

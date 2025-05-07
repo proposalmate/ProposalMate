@@ -24,10 +24,12 @@ function setupMobileMenu() {
     // Create mobile menu toggle button if it doesn't exist
     if (!document.querySelector('.mobile-menu-toggle')) {
         const nav = header.querySelector('nav');
-        const mobileToggle = document.createElement('div');
-        mobileToggle.className = 'mobile-menu-toggle';
-        mobileToggle.innerHTML = '<i class="fas fa-bars"></i>';
-        nav.appendChild(mobileToggle);
+if (nav) {
+  const mobileToggle = document.createElement('div');
+  mobileToggle.className = 'mobile-menu-toggle';
+  mobileToggle.innerHTML = '<i class="fas fa-bars"></i>';
+  nav.appendChild(mobileToggle);
+}
         
         // Create mobile menu if it doesn't exist
         if (!document.querySelector('.mobile-menu')) {

@@ -333,6 +333,11 @@ function loadProposalsToDashboard() {
     if (!listContainer) return;
 
     const proposals = JSON.parse(localStorage.getItem('proposals') || '[]');
+// Update dashboard stats
+document.querySelector('.stat-totalProposals').textContent = proposals.length;
+document.querySelector('.stat-sentProposals').textContent = proposals.filter(p => p.status === 'sent').length;
+document.querySelector('.stat-viewedProposals').textContent = proposals.filter(p => p.status === 'viewed').length;
+document.querySelector('.stat-acceptedProposals').textContent = proposals.filter(p => p.status === 'accepted').length;
     listContainer.innerHTML = '';
 
     if (proposals.length === 0) {

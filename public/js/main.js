@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
 function setupMobileMenu() {
     const header = document.querySelector('header');
     if (!header) return;
+
     const nav = header.querySelector('nav');
     if (!nav) return;
 

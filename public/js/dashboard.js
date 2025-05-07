@@ -184,34 +184,39 @@ function showCreateProposalModal() {
             modal.classList.remove('active');
         });
         
-        form.addEventListener('submit', function(e) {
+        form.addEventListener('submit', async function(e) {
     e.preventDefault();
-
-    const title = document.getElementById('proposal-title').value;
-    const client = document.getElementById('proposal-client').value;
+    const title = document.getElementById('proposal-title').value.trim();
+    const client = document.getElementById('proposal-client').value.trim();
     const template = document.getElementById('proposal-template').value;
     const dueDate = document.getElementById('proposal-due-date').value;
 
-    fetch('/api/v1/proposals', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ title, client, template, dueDate })
-    })
-    .then(res => res.json())
-    .then(data => {
+    try {
+        const res = await fetch('/api/v1/proposals', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ title, client, template, dueDate })
+        });
+
+        const data = await res.json();
+
+        if (!data.success) {
+            alert(data.message || 'Failed to create proposal.');
+            return;
+        }
+
         alert('Proposal created successfully!');
-        location.href = 'dashboard.html';
-    })
-    .catch(err => {
-        console.error(err);
+        window.location.href = 'dashboard.html';
+    } catch (err) {
+        console.error('Error creating proposal:', err);
         alert('There was an error creating the proposal.');
-    });
+    }
 });
             
             // Close modal
-            modal.classList.remove('active');
+           
         });
         
         // Close modal when clicking outside

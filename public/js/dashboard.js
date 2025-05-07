@@ -217,7 +217,7 @@ function showCreateProposalModal() {
             
             // Close modal
            
-        });
+       
         
         // Close modal when clicking outside
         modal.addEventListener('click', function(e) {

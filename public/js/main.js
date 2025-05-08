@@ -251,6 +251,7 @@ function loadProposalsToDashboard() {
   if (!listContainer) return;
 
   const proposals = JSON.parse(localStorage.getItem('proposals') || '[]');
+console.log('loaded proposals:',proposals);
   listContainer.innerHTML = '';
 
   if (proposals.length === 0) {

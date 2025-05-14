@@ -56,49 +56,6 @@ function setupMobileMenu() {
     }
 }
 
-// ProposalMate Main JavaScript File
-
-document.addEventListener('DOMContentLoaded', function () { setupMobileMenu(); setupFormValidation(); setupSmoothScrolling(); initializeInteractiveElements(); setupSidebarNavigation(); setupCreateProposalForm(); loadProposalsToDashboard(); });
-
-// Mobile Menu Setup function setupMobileMenu() { const header = document.querySelector('header'); if (!header) return; const nav = header.querySelector('nav'); if (!nav) return;
-
-if (!document.querySelector('.mobile-menu-toggle')) {
-    const mobileToggle = document.createElement('div');
-    mobileToggle.className = 'mobile-menu-toggle';
-    mobileToggle.innerHTML = '<i class="fas fa-bars"></i>';
-    nav.appendChild(mobileToggle);
-
-    if (!document.querySelector('.mobile-menu')) {
-        const mobileMenu = document.createElement('div');
-        mobileMenu.className = 'mobile-menu';
-
-        const closeButton = document.createElement('div');
-        closeButton.className = 'mobile-menu-close';
-        closeButton.innerHTML = '<i class="fas fa-times"></i>';
-        mobileMenu.appendChild(closeButton);
-
-        const menuLinks = document.createElement('div');
-        menuLinks.className = 'mobile-menu-links';
-
-        const navLinks = header.querySelectorAll('.nav-links a');
-        navLinks.forEach(link => {
-            const newLink = link.cloneNode(true);
-            menuLinks.appendChild(newLink);
-        });
-
-        mobileMenu.appendChild(menuLinks);
-        document.body.appendChild(mobileMenu);
-
-        closeButton.addEventListener('click', function () {
-            mobileMenu.classList.remove('active');
-        });
-
-        mobileToggle.addEventListener('click', function () {
-            mobileMenu.classList.add('active');
-        });
-    }
-}
-
 
 // Form Validation
 function setupFormValidation() {

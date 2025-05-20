@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Save token in localStorage
         localStorage.setItem('token', data.token);
+        console.log("Token saved to localStorage:",data.token);
         alert('Login successful!');
         window.location.href = 'dashboard.html';
       } catch (err) {

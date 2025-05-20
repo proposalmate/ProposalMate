@@ -23,7 +23,29 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             // If all validations pass, simulate login
-            simulateLogin(email.value);
+           fetch("/api/v1/auth/login", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    email: email.value,
+    password: password.value
+  })
+})
+.then(res => res.json())
+.then(data => {
+  if (data.token) {
+    localStorage.setItem("token", data.token);
+    window.location.href = "/pages/dashboard.html";
+  } else {
+    showError(password, "Login failed.");
+  }
+})
+.catch(err => {
+  showError(password, "Something went wrong. Try again.");
+});
+
         });
     }
     

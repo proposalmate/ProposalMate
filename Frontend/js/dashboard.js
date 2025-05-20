@@ -1,4 +1,28 @@
 console.log("Dashboard JS is running");
+function setupSidebarNavigation() {
+  const menuButton = document.querySelector(".menu-toggle");
+  const sidebar = document.querySelector(".sidebar");
+  const closeButton = document.querySelector(".close-sidebar");
+  const sidebarLinks = document.querySelectorAll(".dashboard-link");
+
+  if (menuButton && sidebar) {
+    menuButton.addEventListener("click", () => {
+      sidebar.classList.add("active");
+    });
+  }
+
+  if (closeButton && sidebar) {
+    closeButton.addEventListener("click", () => {
+      sidebar.classList.remove("active");
+    });
+  }
+
+  sidebarLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      sidebar.classList.remove("active");
+    });
+  });
+}
 
 document.addEventListener("DOMContentLoaded", function () {
   setupSidebarNavigation();

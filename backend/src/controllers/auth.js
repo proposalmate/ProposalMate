@@ -59,6 +59,8 @@ exports.register = asyncHandler(async (req, res, next) => {
 // @access  Public
 exports.login = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
+console.log("Login attempt for:", email);
+
 
   // Validate email & password
   if (!email || !password) {
@@ -74,6 +76,7 @@ exports.login = asyncHandler(async (req, res, next) => {
 
   // Check if password matches
   const isMatch = await user.matchPassword(password);
+console.log("Password match result:", isMatch);
 
   if (!isMatch) {
     return next(new ErrorResponse('Invalid credentials', 401));

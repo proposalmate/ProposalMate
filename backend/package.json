@@ -1,7 +1,7 @@
 {
   "name": "proposalmate-backend",
   "version": "1.0.0",
-  "description": "Backend for ProposalMate application",
+  "description": "Backend for ProposalMate application.",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",

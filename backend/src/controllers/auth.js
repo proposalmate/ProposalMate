@@ -17,8 +17,16 @@ exports.register = asyncHandler(async (req, res, next) => {
   console.log("MongoDB connection state:", mongoose.connection.readyState);
   // 0 = disconnected, 1 = connected, 2 = connecting, 3 = disconnecting
 
+  // Check if user already exists before trying to create
+  const existingUser = await User.findOne({ email });
+  if (existingUser) {
+    console.log("User already exists with email:", email);
+    return next(new ErrorResponse('Email already in use', 400));
+  }
+
   try {
-    // Create user
+    // Create user with explicit error handling
+    console.log("Creating new user with name:", name, "email:", email);
     const user = await User.create({
       name,
       email,

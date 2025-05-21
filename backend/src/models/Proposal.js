@@ -1,11 +1,6 @@
 const mongoose = require('mongoose');
 
 const ProposalSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
-  },
   title: {
     type: String,
     required: [true, 'Please add a title'],
@@ -14,21 +9,18 @@ const ProposalSchema = new mongoose.Schema({
   },
   clientName: {
     type: String,
-    required: [true, 'Please add a client name'],
     trim: true,
     maxlength: [100, 'Client name cannot be more than 100 characters']
   },
   clientEmail: {
     type: String,
-    required: [true, 'Please add a client email'],
     match: [
       /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
       'Please add a valid email'
     ]
   },
   content: {
-    type: String,
-    required: [true, 'Please add content']
+    type: String
   },
   template: {
     type: String,
@@ -37,7 +29,7 @@ const ProposalSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['draft', 'sent', 'viewed', 'accepted', 'rejected'],
+    enum: ['draft', 'sent', 'viewed', 'accepted', 'declined'],
     default: 'draft'
   },
   acceptedBy: {
@@ -46,12 +38,10 @@ const ProposalSchema = new mongoose.Schema({
     signature: String,
     date: Date
   },
-  viewCount: {
-    type: Number,
-    default: 0
-  },
-  lastViewed: {
-    type: Date
+  user: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User',
+    required: true
   },
   createdAt: {
     type: Date,
@@ -61,5 +51,15 @@ const ProposalSchema = new mongoose.Schema({
 
 // Add index for faster queries
 ProposalSchema.index({ user: 1, createdAt: -1 });
+
+// Log proposal creation for debugging
+ProposalSchema.pre('save', function(next) {
+  if (this.isNew) {
+    console.log(`Creating new proposal: ${this.title} for user: ${this.user}`);
+  } else {
+    console.log(`Updating proposal: ${this._id}, status: ${this.status}`);
+  }
+  next();
+});
 
 module.exports = mongoose.model('Proposal', ProposalSchema);

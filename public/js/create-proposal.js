@@ -36,7 +36,16 @@ document.addEventListener('DOMContentLoaded', function() {
             
             try {
                 console.log('Sending proposal data to API');
-                const response = await fetch('/api/v1/proposals', {
+                
+                // Get the base URL dynamically
+                const baseUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+                    ? '' // Empty for local development
+                    : ''; // Empty for production too since we're using relative URLs
+                
+                const apiUrl = `${baseUrl}/api/v1/proposals`;
+                console.log('API URL for proposal creation:', apiUrl);
+                
+                const response = await fetch(apiUrl, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -49,7 +58,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         content,
                         template,
                         status: 'draft'
-                    })
+                    }),
+                    credentials: 'same-origin'
                 });
                 
                 console.log('API response status:', response.status);
@@ -57,7 +67,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log('API response data:', data);
                 
                 if (!response.ok) {
-                    throw new Error(data.error || 'Failed to create proposal');
+                    throw new Error(data.error || data.message || 'Failed to create proposal');
+                }
+                
+                if (!data.success) {
+                    throw new Error('API returned success: false');
+                }
+                
+                // Store the proposal ID for reference
+                if (data.data && data.data._id) {
+                    // Save the last created proposal ID
+                    localStorage.setItem('lastCreatedProposal', data.data._id);
+                    console.log('Saved proposal ID to localStorage:', data.data._id);
                 }
                 
                 // Show success message
@@ -77,8 +98,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Show error message
                 showNotification(error.message || 'An error occurred while creating the proposal', 'error');
+                
+                // Log detailed error for debugging
+                console.error('Error details:', {
+                    message: error.message,
+                    stack: error.stack
+                });
             }
         });
+    } else {
+        console.warn('Proposal form not found in the document');
     }
     
     // Preview functionality

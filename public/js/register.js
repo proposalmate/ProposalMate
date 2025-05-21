@@ -117,7 +117,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
       try {
         console.log('Sending registration request to API');
-        const res = await fetch('/api/v1/auth/register', {
+        
+        // Get the base URL dynamically
+        const baseUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+          ? '' // Empty for local development
+          : ''; // Empty for production too since we're using relative URLs
+        
+        const apiUrl = `${baseUrl}/api/v1/auth/register`;
+        console.log('API URL:', apiUrl);
+        
+        const res = await fetch(apiUrl, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -127,6 +136,8 @@ document.addEventListener('DOMContentLoaded', function () {
             email: email.value,
             password: password.value
           }),
+          // Add credentials to ensure cookies are sent
+          credentials: 'same-origin'
         });
 
         console.log('API response status:', res.status);
@@ -137,12 +148,19 @@ document.addEventListener('DOMContentLoaded', function () {
           throw new Error(data.error || data.message || 'Registration failed');
         }
 
+        if (!data.success || !data.token) {
+          throw new Error('Registration response missing token or success status');
+        }
+
         // Save token in localStorage
         localStorage.setItem('token', data.token);
         
         // Save user data
         if (data.user) {
           localStorage.setItem('user', JSON.stringify(data.user));
+          console.log('User data saved to localStorage:', data.user);
+        } else {
+          console.warn('User data missing from response');
         }
         
         // Show success message and redirect
@@ -167,8 +185,15 @@ document.addEventListener('DOMContentLoaded', function () {
         submitBtn.disabled = false;
         submitBtn.innerHTML = originalBtnText;
         
-        // Show error message
-        showToast(err.message || 'An error occurred during registration');
+        // Show error message with more details
+        const errorMessage = err.message || 'An error occurred during registration';
+        showToast(errorMessage);
+        
+        // Add error details to console for debugging
+        console.error('Error details:', {
+          message: err.message,
+          stack: err.stack
+        });
       }
     });
   } else {

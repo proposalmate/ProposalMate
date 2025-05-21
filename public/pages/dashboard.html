@@ -27,7 +27,7 @@
 
   <main class="dashboard">
     <aside class="sidebar">
-      <h2>Welcome <span id="user-name">John</span></h2>
+      <h2>Welcome <span id="user-name">User</span></h2>
       <ul>
         <li><a href="#" class="dashboard-link">Dashboard</a></li>
         <li><a href="create.html" class="dashboard-link">Create New Proposal</a></li>
@@ -35,7 +35,7 @@
         <li><a href="#" class="dashboard-link">Clients</a></li>
         <li><a href="#" class="dashboard-link">Account Settings</a></li>
         <li><a href="#" class="dashboard-link">Subscription</a></li>
-        <li><a href="../index.html" class="dashboard-link">Logout</a></li>
+        <li><a href="#" id="logout-btn" class="dashboard-link">Logout</a></li>
       </ul>
     </aside>
 
@@ -61,8 +61,12 @@
 
       <div id="proposal-status-chart" class="chart-container"></div>
 
-      <div class="proposal-list">
+      <div id="proposals-list" class="proposal-list">
         <!-- Proposals will be dynamically injected here -->
+        <div class="loading-indicator">
+          <i class="fas fa-spinner fa-spin"></i>
+          <p>Loading your proposals...</p>
+        </div>
       </div>
     </section>
   </main>

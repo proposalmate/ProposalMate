@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const token = localStorage.getItem('token');
     if (!token) {
         console.log('No token found, redirecting to login');
-        window.location.href = 'login.html';
+        window.location.href = 'login.html?redirect=account';
         return;
     }
     
@@ -22,14 +22,28 @@ document.addEventListener('DOMContentLoaded', function() {
     async function getSubscriptionDetails() {
         try {
             console.log('Fetching subscription details');
-            const response = await fetch('/api/v1/stripe/subscription', {
+            
+            // Get the base URL dynamically
+            const baseUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+                ? '' // Empty for local development
+                : ''; // Empty for production too since we're using relative URLs
+            
+            const apiUrl = `${baseUrl}/api/v1/stripe/subscription`;
+            console.log('API URL for subscription details:', apiUrl);
+            
+            const response = await fetch(apiUrl, {
                 headers: {
                     'Authorization': `Bearer ${token}`
-                }
+                },
+                credentials: 'same-origin'
             });
             
+            console.log('Subscription API response status:', response.status);
+            
             if (!response.ok) {
-                throw new Error('Failed to fetch subscription details');
+                const errorData = await response.json();
+                console.error('API error response:', errorData);
+                throw new Error(errorData.error || 'Failed to fetch subscription details');
             }
             
             const data = await response.json();
@@ -37,16 +51,32 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (data.success && data.data) {
                 updateSubscriptionUI(data.data);
+            } else {
+                console.error('Invalid subscription data format:', data);
+                throw new Error('Invalid subscription data format');
             }
         } catch (error) {
             console.error('Error fetching subscription details:', error);
             showNotification('Failed to load subscription details. Please try again.', 'error');
+            
+            // Show default "no subscription" state
+            if (subscriptionStatus && subscriptionDetails) {
+                updateSubscriptionUI({
+                    status: 'none',
+                    trialEndDate: null,
+                    currentPeriodEnd: null,
+                    cancelAtPeriodEnd: false
+                });
+            }
         }
     }
     
     // Update subscription UI
     function updateSubscriptionUI(subscription) {
-        if (!subscriptionStatus || !subscriptionDetails) return;
+        if (!subscriptionStatus || !subscriptionDetails) {
+            console.warn('Subscription UI elements not found');
+            return;
+        }
         
         // Update status
         let statusText = '';
@@ -119,13 +149,13 @@ document.addEventListener('DOMContentLoaded', function() {
             // Show cancel button if not already canceled
             if (cancelBtn && !subscription.cancelAtPeriodEnd) {
                 cancelBtn.style.display = 'block';
-                resumeBtn.style.display = 'none';
+                if (resumeBtn) resumeBtn.style.display = 'none';
             }
             
             // Show resume button if canceled at period end
             if (resumeBtn && subscription.cancelAtPeriodEnd) {
                 resumeBtn.style.display = 'block';
-                cancelBtn.style.display = 'none';
+                if (cancelBtn) cancelBtn.style.display = 'none';
                 
                 detailsHtml += `
                     <p class="warning-text">Your subscription will be canceled on ${periodEnd.toLocaleDateString()}.</p>
@@ -181,15 +211,29 @@ document.addEventListener('DOMContentLoaded', function() {
         upgradeBtn.addEventListener('click', async function() {
             try {
                 console.log('Starting checkout session');
-                const response = await fetch('/api/v1/stripe/checkout-session', {
+                
+                // Get the base URL dynamically
+                const baseUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+                    ? '' // Empty for local development
+                    : ''; // Empty for production too since we're using relative URLs
+                
+                const apiUrl = `${baseUrl}/api/v1/stripe/checkout-session`;
+                console.log('API URL for checkout session:', apiUrl);
+                
+                const response = await fetch(apiUrl, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`
-                    }
+                    },
+                    credentials: 'same-origin'
                 });
                 
+                console.log('Checkout API response status:', response.status);
+                
                 if (!response.ok) {
-                    throw new Error('Failed to create checkout session');
+                    const errorData = await response.json();
+                    console.error('API error response:', errorData);
+                    throw new Error(errorData.error || 'Failed to create checkout session');
                 }
                 
                 const data = await response.json();
@@ -198,6 +242,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (data.success && data.url) {
                     // Redirect to Stripe checkout
                     window.location.href = data.url;
+                } else {
+                    console.error('Invalid checkout data format:', data);
+                    throw new Error('Invalid checkout data format');
                 }
             } catch (error) {
                 console.error('Error creating checkout session:', error);
@@ -215,15 +262,29 @@ document.addEventListener('DOMContentLoaded', function() {
             
             try {
                 console.log('Canceling subscription');
-                const response = await fetch('/api/v1/stripe/subscription', {
+                
+                // Get the base URL dynamically
+                const baseUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+                    ? '' // Empty for local development
+                    : ''; // Empty for production too since we're using relative URLs
+                
+                const apiUrl = `${baseUrl}/api/v1/stripe/subscription`;
+                console.log('API URL for subscription cancellation:', apiUrl);
+                
+                const response = await fetch(apiUrl, {
                     method: 'DELETE',
                     headers: {
                         'Authorization': `Bearer ${token}`
-                    }
+                    },
+                    credentials: 'same-origin'
                 });
                 
+                console.log('Cancellation API response status:', response.status);
+                
                 if (!response.ok) {
-                    throw new Error('Failed to cancel subscription');
+                    const errorData = await response.json();
+                    console.error('API error response:', errorData);
+                    throw new Error(errorData.error || 'Failed to cancel subscription');
                 }
                 
                 const data = await response.json();
@@ -246,15 +307,29 @@ document.addEventListener('DOMContentLoaded', function() {
         resumeBtn.addEventListener('click', async function() {
             try {
                 console.log('Resuming subscription');
-                const response = await fetch('/api/v1/stripe/subscription/resume', {
+                
+                // Get the base URL dynamically
+                const baseUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+                    ? '' // Empty for local development
+                    : ''; // Empty for production too since we're using relative URLs
+                
+                const apiUrl = `${baseUrl}/api/v1/stripe/subscription/resume`;
+                console.log('API URL for subscription resumption:', apiUrl);
+                
+                const response = await fetch(apiUrl, {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${token}`
-                    }
+                    },
+                    credentials: 'same-origin'
                 });
                 
+                console.log('Resumption API response status:', response.status);
+                
                 if (!response.ok) {
-                    throw new Error('Failed to resume subscription');
+                    const errorData = await response.json();
+                    console.error('API error response:', errorData);
+                    throw new Error(errorData.error || 'Failed to resume subscription');
                 }
                 
                 const data = await response.json();
@@ -277,15 +352,29 @@ document.addEventListener('DOMContentLoaded', function() {
         updatePaymentBtn.addEventListener('click', async function() {
             try {
                 console.log('Getting setup intent for payment update');
-                const response = await fetch('/api/v1/stripe/update-payment-method', {
+                
+                // Get the base URL dynamically
+                const baseUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+                    ? '' // Empty for local development
+                    : ''; // Empty for production too since we're using relative URLs
+                
+                const apiUrl = `${baseUrl}/api/v1/stripe/update-payment-method`;
+                console.log('API URL for payment update:', apiUrl);
+                
+                const response = await fetch(apiUrl, {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${token}`
-                    }
+                    },
+                    credentials: 'same-origin'
                 });
                 
+                console.log('Payment update API response status:', response.status);
+                
                 if (!response.ok) {
-                    throw new Error('Failed to create setup intent');
+                    const errorData = await response.json();
+                    console.error('API error response:', errorData);
+                    throw new Error(errorData.error || 'Failed to create setup intent');
                 }
                 
                 const data = await response.json();
@@ -294,6 +383,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (data.success && data.clientSecret) {
                     // Redirect to payment update page
                     window.location.href = `update-payment.html?setup_intent=${data.clientSecret}`;
+                } else {
+                    console.error('Invalid setup intent data format:', data);
+                    throw new Error('Invalid setup intent data format');
                 }
             } catch (error) {
                 console.error('Error creating setup intent:', error);
@@ -354,5 +446,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize
     if (subscriptionStatus && subscriptionDetails) {
         getSubscriptionDetails();
+    } else {
+        console.warn('Subscription UI elements not found, skipping initialization');
     }
 });

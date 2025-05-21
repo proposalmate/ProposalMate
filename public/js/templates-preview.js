@@ -2,10 +2,33 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Templates preview script loaded');
     
-    // Check if user is logged in
+    // Check if user is logged in - with improved token validation
     const token = localStorage.getItem('token');
-    if (!token) {
-        console.log('No token found, redirecting to login');
+    const tokenExpiry = localStorage.getItem('tokenExpiry');
+    const currentTime = new Date().getTime();
+    
+    // Function to check if token is valid
+    function isTokenValid() {
+        if (!token) {
+            console.log('No token found');
+            return false;
+        }
+        
+        // If we have an expiry time, check if token is expired
+        if (tokenExpiry && parseInt(tokenExpiry) < currentTime) {
+            console.log('Token expired');
+            return false;
+        }
+        
+        return true;
+    }
+    
+    // Only redirect if not logged in AND not on a public page
+    // This prevents the redirect loop when already logged in
+    if (!isTokenValid() && !window.location.pathname.includes('index.html') && 
+        !window.location.pathname.includes('about.html') && 
+        !window.location.pathname.includes('pricing.html')) {
+        console.log('Invalid token, redirecting to login');
         window.location.href = 'login.html';
         return;
     }
@@ -70,7 +93,8 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     
     // Handle template card clicks
-    if (templateCards) {
+    if (templateCards && templateCards.length > 0) {
+        console.log('Found template cards:', templateCards.length);
         templateCards.forEach(card => {
             card.addEventListener('click', function() {
                 const templateType = this.getAttribute('data-template');
@@ -81,6 +105,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         });
+    } else {
+        console.warn('No template cards found in the document');
     }
     
     // Show template preview
@@ -95,6 +121,8 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Template data not found for:', templateType);
             return;
         }
+        
+        console.log('Showing preview for template:', templateType);
         
         // Build modal content
         let featuresHtml = '';
@@ -136,6 +164,15 @@ document.addEventListener('DOMContentLoaded', function() {
     // Use template
     function useTemplate(templateType) {
         console.log('Using template:', templateType);
+        
+        // Check if user is logged in before proceeding
+        if (!isTokenValid()) {
+            console.log('User not logged in, redirecting to login');
+            // Store the selected template to use after login
+            localStorage.setItem('pendingTemplate', templateType);
+            window.location.href = 'login.html?redirect=create';
+            return;
+        }
         
         // Store selected template in localStorage
         localStorage.setItem('selectedTemplate', templateType);

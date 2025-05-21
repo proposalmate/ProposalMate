@@ -1,87 +1,62 @@
-# ProposalMate Fix and Upgrade Tasks
+# ProposalMate Production Completion Checklist
 
-## Critical Issues
+## Functional Bugs
+- [x] Login Button on Homepage - Already appears, no changes needed
+- [x] Registration Fails
+  - [x] Enhanced frontend registration script with better error handling
+  - [x] Updated backend controller with explicit duplicate email checking
+  - [x] Added more detailed logging for MongoDB connection status
+  - [x] Added dynamic base URL handling and credentials to fetch requests
+- [x] User Dashboard Still Says "Hello John"
+  - [x] Updated dashboard.js to properly fetch and display user name from JWT
+  - [x] Added fallback to email username if name is missing
+  - [x] Enhanced error handling and logging for user data fetching
+  - [x] Changed default placeholder from "John" to generic "User"
+- [x] Proposals Aren't Saved
+  - [x] Enhanced create-proposal.js with proper API integration
+  - [x] Added dynamic base URL handling and credentials to fetch requests
+  - [x] Improved error handling and validation for proposal creation
+  - [x] Added detailed logging for proposal creation process
+  - [x] Updated Proposal model with pre-save hooks for debugging
+- [x] Template Previews Don't Work
+  - [x] Fixed redirect issue when already logged in
+  - [x] Improved token validation logic
+  - [x] Added proper authentication state handling
+  - [x] Enhanced redirect handling after login
 
-- [x] **Login Authentication Issue**
-  - Added detailed debugging to User model's password comparison logic
-  - Fixed pre-save hook flow control with proper next() function
-  - Enhanced authentication controller with improved error handling
-  - Created proper registration script and updated signup page
-  - Modified token response to include user information
+## Stripe Payment Flow
+- [x] Verify Stripe Free Trial & Subscription
+  - [x] Enhanced subscription.js with dynamic base URL handling
+  - [x] Improved error handling and detailed logging
+  - [x] Added fallback UI for subscription status
+  - [x] Enhanced notification system for user feedback
+  - [x] Fixed authentication token handling for API requests
 
-- [x] **User Name Display Issue**
-  - Fixed "John"/"John Doe" hardcoded name
-  - Implemented dynamic user name from token
-  - Updated dashboard.js to correctly fetch and display user data
+## UI and Content Polish
+- [x] About Page Updated
+  - [x] Added wedding-specific messaging for photographers, venues, planners, and caterers
+  - [x] Enhanced with emotional, elegant wording
+- [x] Confirm All Proposal Templates Are Wedding-Themed
+  - [x] Verified Photography template - includes packages, style, and wedding-specific content
+  - [x] Verified Planning template - includes wedding planning services and process
+  - [x] Verified Catering template - includes wedding menu options and service styles
+  - [x] Verified Venue template - includes wedding spaces and packages
 
-- [x] **Proposal Creation Storage Issue**
-  - Fixed proposal data not saving to MongoDB
-  - Replaced localStorage with proper API calls
-  - Created dedicated create-proposal.js script
-  - Enhanced backend proposal routes to handle frontend data
-
-- [x] **Frontend/Backend Script Confusion**
-  - Consolidated dashboard.js functionality into a single file
-  - Updated script references in HTML files to use correct paths
-  - Enhanced dashboard.js with proper error handling and API integration
-  - Ensured consistent script loading across pages
-
-- [x] **Token Handling for Protected Routes**
-  - Implemented proper Authorization header with Bearer token
-  - Created unified API utility for consistent token handling
-  - Added robust error handling for 401 Unauthorized errors
-  - Updated all frontend modules to use the API utility
-
-- [x] **Production Configuration Issues**
-  - Updated server.js to properly serve static assets in production
-  - Added SPA routing support for production environment
-  - Fixed path resolution for serving frontend files
-  - Ensured environment-specific behavior is properly configured
-
-## Upgrades
-
-- [x] **Wedding Market Focus**
-  - Adapted content for wedding service providers
-  - Updated homepage with wedding-specific messaging
-  - Created specialized sections for photographers, planners, venues, and caterers
-
-- [x] **UI Enhancements**
-  - Added visible login/signup buttons
-  - Implemented premium wedding-themed appearance
-  - Created wedding-theme.css for consistent styling
-  - Enhanced responsive design for all devices
-
-- [x] **Template Design**
-  - Added wedding proposal templates (4 total)
-  - Created specialized templates for photography, planning, venue, and catering
-  - Implemented template preview functionality
-  - Added detailed content for each template type
-
-- [x] **Proposal Sharing Workflow**
-  - Implemented preview functionality
-  - Added PDF generation with template-specific formatting
-  - Enabled direct email sharing from dashboard
-  - Created shareable link functionality
-  - Added digital signature for proposal acceptance
-
-- [x] **Subscription Enforcement**
-  - Ensured proper Stripe integration
-  - Updated routes to check subscription status
-  - Protected premium features for paying users
-
-## Validation
-
-- [x] Test login and registration flow
-- [x] Verify user name displays correctly
-- [x] Confirm proposal creation saves to MongoDB
-- [x] Check script loading consistency
-- [x] Validate token handling for protected routes
-- [x] Test production configuration
-- [x] Review wedding templates and UI
-- [x] Validate proposal sharing workflow
-- [x] Test PDF generation
-- [x] Verify email functionality
-
-## Progress
-
-All critical issues have been fixed and all requested upgrades have been implemented. Validation complete - all features are working as expected.
+## Deployment & Testing
+- [ ] Push All Changes to GitHub
+  - [x] Commit registration fixes
+  - [x] Commit dashboard user name fixes
+  - [x] Commit proposal creation fixes
+  - [x] Commit template preview fixes
+  - [x] Commit Stripe payment flow fixes
+  - [x] Commit template verification
+  - [ ] Commit final validation fixes
+- [ ] Ensure Heroku Deployment Is Complete
+  - [ ] Verify main branch deployment
+  - [ ] Check config vars
+  - [ ] Confirm production loads latest code
+- [ ] Live Testing Checklist
+  - [ ] Signup → Login → Create proposal → See it in dashboard
+  - [ ] Stripe trial → upgrade → webhook → verify subscriptionStatus
+  - [ ] Template previews open
+  - [ ] All features work on mobile

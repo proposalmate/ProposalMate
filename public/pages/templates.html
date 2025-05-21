@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Proposal Templates - ProposalMate</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/wedding-theme.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="wedding-theme">
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">ProposalMate<span class="logo-accent">Wedding</span></div>
+                <div class="nav-links">
+                    <a href="/">Home</a>
+                    <a href="features.html">Features</a>
+                    <a href="pricing.html">Pricing</a>
+                    <a href="about.html">About</a>
+                    <div class="auth-buttons">
+                        <a href="login.html" class="btn btn-outline">Log In</a>
+                        <a href="signup.html" class="btn btn-primary">Sign Up</a>
+                    </div>
+                </div>
+                <div class="mobile-menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Wedding Proposal Templates</h1>
+            <p>Professional templates designed specifically for wedding service providers</p>
+        </div>
+    </section>
+
+    <section class="templates-section">
+        <div class="container">
+            <div class="template-categories">
+                <button class="template-category active" data-category="all">All Templates</button>
+                <button class="template-category" data-category="photography">Photography</button>
+                <button class="template-category" data-category="planning">Planning</button>
+                <button class="template-category" data-category="venue">Venue</button>
+                <button class="template-category" data-category="catering">Catering</button>
+            </div>
+
+            <div class="templates-grid">
+                <div class="template-card" id="photography">
+                    <div class="template-image">
+                        <img src="../images/templates/photography-template.jpg" alt="Wedding Photography Template">
+                    </div>
+                    <div class="template-content">
+                        <h3>Wedding Photography</h3>
+                        <p>Perfect for photographers to showcase their packages and portfolio</p>
+                        <div class="template-features">
+                            <span><i class="fas fa-check-circle"></i> Portfolio showcase</span>
+                            <span><i class="fas fa-check-circle"></i> Package comparison</span>
+                            <span><i class="fas fa-check-circle"></i> Process timeline</span>
+                        </div>
+                        <div class="template-actions">
+                            <a href="#" class="btn btn-outline template-preview" data-template="photography">Preview</a>
+                            <a href="create.html?template=photography" class="btn btn-primary">Use Template</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="template-card" id="planning">
+                    <div class="template-image">
+                        <img src="../images/templates/planner-template.jpg" alt="Wedding Planner Template">
+                    </div>
+                    <div class="template-content">
+                        <h3>Wedding Planning</h3>
+                        <p>Comprehensive template for wedding planners to outline services and process</p>
+                        <div class="template-features">
+                            <span><i class="fas fa-check-circle"></i> Service tiers</span>
+                            <span><i class="fas fa-check-circle"></i> Planning process</span>
+                            <span><i class="fas fa-check-circle"></i> Portfolio section</span>
+                        </div>
+                        <div class="template-actions">
+                            <a href="#" class="btn btn-outline template-preview" data-template="planning">Preview</a>
+                            <a href="create.html?template=planning" class="btn btn-primary">Use Template</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="template-card" id="venue">
+                    <div class="template-image">
+                        <img src="../images/templates/venue-template.jpg" alt="Wedding Venue Template">
+                    </div>
+                    <div class="template-content">
+                        <h3>Wedding Venue</h3>
+                        <p>Elegant template for venues to showcase spaces and booking packages</p>
+                        <div class="template-features">
+                            <span><i class="fas fa-check-circle"></i> Space descriptions</span>
+                            <span><i class="fas fa-check-circle"></i> Package options</span>
+                            <span><i class="fas fa-check-circle"></i> Additional services</span>
+                        </div>
+                        <div class="template-actions">
+                            <a href="#" class="btn btn-outline template-preview" data-template="venue">Preview</a>
+                            <a href="create.html?template=venue" class="btn btn-primary">Use Template</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="template-card" id="catering">
+                    <div class="template-image">
+                        <img src="../images/templates/catering-template.jpg" alt="Wedding Catering Template">
+                    </div>
+                    <div class="template-content">
+                        <h3>Wedding Catering</h3>
+                        <p>Detailed template for caterers to present menus and service options</p>
+                        <div class="template-features">
+                            <span><i class="fas fa-check-circle"></i> Menu samples</span>
+                            <span><i class="fas fa-check-circle"></i> Service styles</span>
+                            <span><i class="fas fa-check-circle"></i> Bar packages</span>
+                        </div>
+                        <div class="template-actions">
+                            <a href="#" class="btn btn-outline template-preview" data-template="catering">Preview</a>
+                            <a href="create.html?template=catering" class="btn btn-primary">Use Template</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="template-preview-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 id="preview-title">Template Preview</h2>
+            <div class="preview-container">
+                <div id="preview-content"></div>
+            </div>
+            <div class="modal-actions">
+                <a href="#" id="use-template-btn" class="btn btn-primary">Use This Template</a>
+            </div>
+        </div>
+    </div>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Create Beautiful Wedding Proposals?</h2>
+            <p>Join thousands of wedding professionals who trust ProposalMate to win more clients.</p>
+            <a href="signup.html" class="btn btn-primary btn-large">Start Your Free Trial Today</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-links">
+                    <h3>ProposalMate Wedding</h3>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="features.html">Features</a></li>
+                        <li><a href="pricing.html">Pricing</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Templates</h3>
+                    <ul>
+                        <li><a href="#photography">Photography</a></li>
+                        <li><a href="#planning">Planning</a></li>
+                        <li><a href="#venue">Venue</a></li>
+                        <li><a href="#catering">Catering</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Wedding Proposal Guide</a></li>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">FAQs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Contact</h3>
+                    <ul>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="#">Support</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 ProposalMate Wedding. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/wedding-templates.js"></script>
+    <script src="../js/templates-preview.js"></script>
+</body>
+</html>

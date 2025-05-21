@@ -2,8 +2,10 @@ const express = require('express');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
 const cors = require('cors');
+const path = require('path');
 const connectDB = require('./config/db');
 const config = require('./config/config');
+const ErrorResponse = require('./utils/errorResponse');
 
 // Load env vars
 dotenv.config();
@@ -29,10 +31,29 @@ if (process.env.NODE_ENV === 'development') {
 app.use('/api/v1/auth', require('./routes/auth'));
 app.use('/api/v1/proposals', require('./routes/proposals'));
 app.use('/api/v1/stripe', require('./routes/stripe'));
-app.use('/dashboard', require('./routes/dashboard'));
 
-// Serve static files from public directory
-app.use(express.static(path.join(__dirname, 'public')));
+// Serve static files from public directory in development
+if (process.env.NODE_ENV === 'development') {
+  app.use(express.static(path.join(__dirname, 'public')));
+} else {
+  // In production, serve from the root public directory
+  app.use(express.static(path.join(__dirname, '..', '..', 'public')));
+}
+
+// For SPA routing - serve index.html for any unmatched routes in production
+if (process.env.NODE_ENV === 'production') {
+  app.get('*', (req, res) => {
+    // Skip API routes
+    if (req.url.startsWith('/api/')) {
+      return res.status(404).json({
+        success: false,
+        error: 'Route not found'
+      });
+    }
+    
+    res.sendFile(path.resolve(__dirname, '..', '..', 'public', 'index.html'));
+  });
+}
 
 // Error handler middleware
 app.use((err, req, res, next) => {
@@ -69,7 +90,7 @@ app.use((err, req, res, next) => {
 // Start server
 const PORT = config.PORT;
 const server = app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
 });
 
 // Handle unhandled promise rejections

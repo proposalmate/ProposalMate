@@ -10,6 +10,7 @@ const config = require('../config/config');
 // @access  Public
 exports.register = asyncHandler(async (req, res, next) => {
   const { name, email, password } = req.body;
+  console.log("Registration attempt for:", email);
 
   // Create user
   const user = await User.create({
@@ -59,8 +60,7 @@ exports.register = asyncHandler(async (req, res, next) => {
 // @access  Public
 exports.login = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
-console.log("Login attempt for:", email);
-
+  console.log("Login attempt for:", email);
 
   // Validate email & password
   if (!email || !password) {
@@ -71,12 +71,15 @@ console.log("Login attempt for:", email);
   const user = await User.findOne({ email }).select('+password');
 
   if (!user) {
+    console.log("User not found with email:", email);
     return next(new ErrorResponse('Invalid credentials', 401));
   }
 
+  console.log("User found:", user.name);
+  
   // Check if password matches
   const isMatch = await user.matchPassword(password);
-console.log("Password match result:", isMatch);
+  console.log("Password match result:", isMatch);
 
   if (!isMatch) {
     return next(new ErrorResponse('Invalid credentials', 401));
@@ -256,7 +259,7 @@ const sendTokenResponse = (user, statusCode, res) => {
 
   const options = {
     expires: new Date(
-      Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000
+      Date.now() + (process.env.JWT_COOKIE_EXPIRE || 7) * 24 * 60 * 60 * 1000
     ),
     httpOnly: true
   };
@@ -270,6 +273,12 @@ const sendTokenResponse = (user, statusCode, res) => {
     .cookie('token', token, options)
     .json({
       success: true,
-      token
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role
+      }
     });
 };

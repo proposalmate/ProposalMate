@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 const config = require('../config/config');
 
 const UserSchema = new mongoose.Schema({
@@ -56,10 +57,12 @@ const UserSchema = new mongoose.Schema({
 UserSchema.pre('save', async function(next) {
   if (!this.isModified('password')) {
     next();
+    return;
   }
 
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
+  next();
 });
 
 // Sign JWT and return
@@ -71,7 +74,15 @@ UserSchema.methods.getSignedJwtToken = function() {
 
 // Match user entered password to hashed password in database
 UserSchema.methods.matchPassword = async function(enteredPassword) {
-  return await bcrypt.compare(enteredPassword, this.password);
+  // Add debugging
+  console.log("Comparing passwords:");
+  console.log("Entered password:", enteredPassword);
+  console.log("Stored hashed password:", this.password);
+  
+  // Use bcrypt.compare directly with await
+  const isMatch = await bcrypt.compare(enteredPassword, this.password);
+  console.log("bcrypt.compare result:", isMatch);
+  return isMatch;
 };
 
 // Generate verification token

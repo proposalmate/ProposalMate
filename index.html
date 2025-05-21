@@ -3,68 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProposalMate - Create Proposals in Minutes</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
+    <title>ProposalMate - Wedding Proposal Software for Professionals</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap">
     <link rel="stylesheet" href="css/layout.css">
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/wedding-theme.css">
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body>
+<body class="wedding-theme">
     <header>
         <div class="container">
             <nav>
-                <div class="logo">ProposalMate</div>
+                <div class="logo">ProposalMate<span class="logo-accent">Wedding</span></div>
                 <div class="nav-links">
                     <a href="/">Home</a>
                     <a href="pages/features.html">Features</a>
                     <a href="pages/pricing.html">Pricing</a>
                     <a href="pages/about.html">About</a>
-                    <a href="pages/signup.html" class="btn btn-primary">Sign Up</a>
+                    <div class="auth-buttons">
+                        <a href="pages/login.html" class="btn btn-outline">Log In</a>
+                        <a href="pages/signup.html" class="btn btn-primary">Sign Up</a>
+                    </div>
+                </div>
+                <div class="mobile-menu-toggle">
+                    <i class="fas fa-bars"></i>
                 </div>
             </nav>
         </div>
     </header>
 
-    <section class="hero">
+    <section class="hero wedding-hero">
         <div class="container">
-            <h1>Create Proposals in Minutes</h1>
-            <p>Sign up to create, manage, and send professional proposals with ease.</p>
-            <a href="pages/signup.html" class="btn btn-primary">Start Free Trial</a>
+            <h1>Beautiful Wedding Proposals for Professionals</h1>
+            <p>Create stunning, branded proposals for your wedding clients in minutes. Designed specifically for photographers, planners, venues, and caterers.</p>
+            <div class="hero-cta">
+                <a href="pages/signup.html" class="btn btn-primary btn-large">Start Free Trial</a>
+                <a href="pages/templates.html" class="btn btn-secondary btn-large">View Templates</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="wedding-professionals">
+        <div class="container">
+            <h2>Tailored for Wedding Professionals</h2>
+            <div class="professionals-grid">
+                <div class="professional-card">
+                    <div class="professional-icon">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <h3>Wedding Photographers</h3>
+                    <p>Showcase your portfolio and packages with elegant, visual proposals that highlight your unique style.</p>
+                </div>
+                <div class="professional-card">
+                    <div class="professional-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h3>Wedding Planners</h3>
+                    <p>Present your services, timelines, and coordination details in comprehensive, professional proposals.</p>
+                </div>
+                <div class="professional-card">
+                    <div class="professional-icon">
+                        <i class="fas fa-landmark"></i>
+                    </div>
+                    <h3>Wedding Venues</h3>
+                    <p>Highlight your spaces, amenities, and packages with immersive, detailed venue proposals.</p>
+                </div>
+                <div class="professional-card">
+                    <div class="professional-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h3>Wedding Caterers</h3>
+                    <p>Present your menus, services, and culinary expertise with appetizing, well-organized proposals.</p>
+                </div>
+            </div>
         </div>
     </section>
 
     <section class="features">
         <div class="container">
-            <h2>Key Features</h2>
+            <h2>Features Designed for Wedding Professionals</h2>
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">
-                        <i class="fas fa-file-alt"></i>
+                        <i class="fas fa-palette"></i>
                     </div>
-                    <h3>Create & Send Proposals</h3>
-                    <p>Easily create professional proposals and send them directly to your clients.</p>
+                    <h3>Wedding-Focused Templates</h3>
+                    <p>Choose from professionally designed templates specifically created for wedding services.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
-                        <i class="fas fa-paint-brush"></i>
+                        <i class="fas fa-share-alt"></i>
                     </div>
-                    <h3>Customize Templates</h3>
-                    <p>Personalize your proposals with customizable templates to match your brand.</p>
+                    <h3>Easy Sharing Options</h3>
+                    <p>Share proposals via email, direct link, or downloadable PDF with just a few clicks.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-chart-line"></i>
                     </div>
-                    <h3>Track Proposal Status</h3>
-                    <p>Monitor when clients view, accept, or request changes to your proposals.</p>
+                    <h3>Client Engagement Tracking</h3>
+                    <p>See when clients view your proposals and which sections they spend the most time on.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
-                        <i class="fas fa-users"></i>
+                        <i class="fas fa-signature"></i>
                     </div>
-                    <h3>Manage Client Information</h3>
-                    <p>Keep all your client details organized in one convenient location.</p>
+                    <h3>Digital Acceptance</h3>
+                    <p>Allow clients to accept proposals and sign contracts digitally for a seamless experience.</p>
                 </div>
             </div>
             <div class="features-cta">
@@ -73,18 +119,58 @@
         </div>
     </section>
 
+    <section class="templates-preview">
+        <div class="container">
+            <h2>Premium Wedding Proposal Templates</h2>
+            <p class="section-subtitle">Professionally designed templates to showcase your wedding services</p>
+            <div class="templates-slider">
+                <div class="template-card">
+                    <div class="template-image">
+                        <img src="images/templates/photography-template.jpg" alt="Wedding Photography Template">
+                    </div>
+                    <h3>Photography Package</h3>
+                    <a href="pages/templates.html#photography" class="btn btn-outline">View Template</a>
+                </div>
+                <div class="template-card">
+                    <div class="template-image">
+                        <img src="images/templates/planner-template.jpg" alt="Wedding Planner Template">
+                    </div>
+                    <h3>Wedding Planning</h3>
+                    <a href="pages/templates.html#planning" class="btn btn-outline">View Template</a>
+                </div>
+                <div class="template-card">
+                    <div class="template-image">
+                        <img src="images/templates/venue-template.jpg" alt="Wedding Venue Template">
+                    </div>
+                    <h3>Venue Booking</h3>
+                    <a href="pages/templates.html#venue" class="btn btn-outline">View Template</a>
+                </div>
+                <div class="template-card">
+                    <div class="template-image">
+                        <img src="images/templates/catering-template.jpg" alt="Wedding Catering Template">
+                    </div>
+                    <h3>Catering Services</h3>
+                    <a href="pages/templates.html#catering" class="btn btn-outline">View Template</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section class="pricing">
         <div class="container">
             <h2>Simple, Affordable Pricing</h2>
             <div class="pricing-card">
+                <div class="pricing-badge">Perfect for Wedding Professionals</div>
                 <h3>Monthly Subscription</h3>
                 <div class="price">£7<span>/month</span></div>
                 <p>Start with a 7-day free trial, then just £7 per month.</p>
                 <ul class="pricing-features">
-                    <li>Unlimited proposals</li>
-                    <li>All templates included</li>
-                    <li>Client management</li>
-                    <li>Proposal tracking</li>
+                    <li><i class="fas fa-check"></i> Unlimited proposals</li>
+                    <li><i class="fas fa-check"></i> All wedding templates included</li>
+                    <li><i class="fas fa-check"></i> Client management</li>
+                    <li><i class="fas fa-check"></i> Proposal tracking</li>
+                    <li><i class="fas fa-check"></i> PDF downloads</li>
+                    <li><i class="fas fa-check"></i> Digital signatures</li>
                 </ul>
                 <a href="pages/signup.html" class="btn btn-primary">Start Free Trial</a>
             </div>
@@ -93,19 +179,38 @@
 
     <section class="testimonials">
         <div class="container">
-            <h2>What Our Customers Say</h2>
-            <div class="testimonial-card">
-                <p>"ProposalMate has streamlined my proposal process and helped me win more clients. The templates are professional and easy to customize."</p>
-                <div class="testimonial-author">- Sarah J., Freelance Designer</div>
+            <h2>What Wedding Professionals Say</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-image">
+                        <img src="images/testimonials/photographer.jpg" alt="Wedding Photographer">
+                    </div>
+                    <p>"ProposalMate has transformed how I present my photography packages. My booking rate has increased by 30% since I started using these beautiful templates."</p>
+                    <div class="testimonial-author">- Emma R., Wedding Photographer</div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-image">
+                        <img src="images/testimonials/planner.jpg" alt="Wedding Planner">
+                    </div>
+                    <p>"My clients are always impressed with the professional proposals I create. The wedding planning template perfectly showcases my services and process."</p>
+                    <div class="testimonial-author">- Michael T., Wedding Planner</div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-image">
+                        <img src="images/testimonials/venue.jpg" alt="Venue Manager">
+                    </div>
+                    <p>"As a venue manager, I need to create detailed proposals quickly. ProposalMate has streamlined our process and helped us book more weddings."</p>
+                    <div class="testimonial-author">- Sarah L., Venue Manager</div>
+                </div>
             </div>
         </div>
     </section>
 
     <section class="cta-section">
         <div class="container">
-            <h2>Ready to Create Professional Proposals?</h2>
-            <p>Join thousands of professionals who trust ProposalMate for their proposal needs.</p>
-            <a href="pages/signup.html" class="btn btn-primary">Start Your Free Trial Today</a>
+            <h2>Ready to Create Beautiful Wedding Proposals?</h2>
+            <p>Join thousands of wedding professionals who trust ProposalMate to win more clients.</p>
+            <a href="pages/signup.html" class="btn btn-primary btn-large">Start Your Free Trial Today</a>
         </div>
     </section>
 
@@ -113,7 +218,7 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-links">
-                    <h3>ProposalMate</h3>
+                    <h3>ProposalMate Wedding</h3>
                     <ul>
                         <li><a href="pages/about.html">About Us</a></li>
                         <li><a href="pages/features.html">Features</a></li>
@@ -121,9 +226,18 @@
                     </ul>
                 </div>
                 <div class="footer-links">
+                    <h3>Templates</h3>
+                    <ul>
+                        <li><a href="pages/templates.html#photography">Photography</a></li>
+                        <li><a href="pages/templates.html#planning">Planning</a></li>
+                        <li><a href="pages/templates.html#venue">Venue</a></li>
+                        <li><a href="pages/templates.html#catering">Catering</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
                     <h3>Resources</h3>
                     <ul>
-                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Wedding Proposal Guide</a></li>
                         <li><a href="#">Help Center</a></li>
                         <li><a href="#">FAQs</a></li>
                     </ul>
@@ -144,11 +258,12 @@
                 </div>
             </div>
             <div class="copyright">
-                <p>&copy; 2025 ProposalMate. All rights reserved.</p>
+                <p>&copy; 2025 ProposalMate Wedding. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
+    <script src="js/api.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>

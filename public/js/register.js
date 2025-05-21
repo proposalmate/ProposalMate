@@ -20,19 +20,64 @@ function showError(input, message) {
   input.focus();
 }
 
+// Show toast notification
+function showToast(message, type = 'error') {
+  // Remove existing toast if any
+  const existingToast = document.querySelector('.toast-notification');
+  if (existingToast) {
+    document.body.removeChild(existingToast);
+  }
+
+  // Create toast element
+  const toast = document.createElement('div');
+  toast.className = `toast-notification ${type}`;
+  toast.innerHTML = `
+    <div class="toast-content">
+      <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+      <span>${message}</span>
+    </div>
+  `;
+
+  // Add to body
+  document.body.appendChild(toast);
+
+  // Show toast
+  setTimeout(() => {
+    toast.classList.add('show');
+  }, 100);
+
+  // Hide toast after 5 seconds
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => {
+      if (document.body.contains(toast)) {
+        document.body.removeChild(toast);
+      }
+    }, 300);
+  }, 5000);
+}
+
 // Registration handling
 document.addEventListener('DOMContentLoaded', function () {
   const signupForm = document.getElementById('signup-form');
+  console.log('Registration script loaded');
 
   if (signupForm) {
+    console.log('Signup form found, attaching event listener');
+    
     signupForm.addEventListener('submit', async function (e) {
       e.preventDefault();
+      console.log('Signup form submitted');
 
       const name = document.getElementById('name');
       const email = document.getElementById('email');
       const password = document.getElementById('password');
       const confirmPassword = document.getElementById('confirm-password');
       const terms = document.getElementById('terms');
+
+      // Reset previous errors
+      document.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+      document.querySelectorAll('.error-message').forEach(el => el.remove());
 
       // Validate name
       if (!name.value.trim()) {
@@ -64,7 +109,14 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
       }
 
+      // Show loading state
+      const submitBtn = signupForm.querySelector('button[type="submit"]');
+      const originalBtnText = submitBtn.innerHTML;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
+
       try {
+        console.log('Sending registration request to API');
         const res = await fetch('/api/v1/auth/register', {
           method: 'POST',
           headers: {
@@ -77,14 +129,21 @@ document.addEventListener('DOMContentLoaded', function () {
           }),
         });
 
+        console.log('API response status:', res.status);
         const data = await res.json();
+        console.log('API response data:', data);
 
         if (!res.ok) {
-          throw new Error(data.message || 'Registration failed');
+          throw new Error(data.error || data.message || 'Registration failed');
         }
 
         // Save token in localStorage
         localStorage.setItem('token', data.token);
+        
+        // Save user data
+        if (data.user) {
+          localStorage.setItem('user', JSON.stringify(data.user));
+        }
         
         // Show success message and redirect
         signupForm.innerHTML = `
@@ -95,13 +154,24 @@ document.addEventListener('DOMContentLoaded', function () {
           </div>
         `;
         
+        showToast('Registration successful! Redirecting...', 'success');
+        
         setTimeout(() => {
           window.location.href = 'dashboard.html';
         }, 2000);
         
       } catch (err) {
-        alert(err.message || 'An error occurred during registration');
+        console.error('Registration error:', err);
+        
+        // Reset button
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnText;
+        
+        // Show error message
+        showToast(err.message || 'An error occurred during registration');
       }
     });
+  } else {
+    console.warn('Signup form not found in the document');
   }
 });

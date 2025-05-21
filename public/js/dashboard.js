@@ -1,150 +1,190 @@
 // Dashboard functionality
-document.addEventListener("DOMContentLoaded", function () {
-  console.log("PUBLIC FOLDER VERSION - CONSOLIDATED");
-  console.log("Dashboard JS is running");
-  
-  // Check authentication before proceeding
-  if (!window.requireAuth()) return;
-  
-  setupSidebarNavigation();
-  loadUserData();
-  loadProposals();
-});
-
-// Load user data from token and update UI
-function loadUserData() {
-  window.ProposalMateAPI.auth.getCurrentUser()
-    .then(data => {
-      console.log("User data received:", data);
-      
-      // Update user name in the sidebar
-      const nameElement = document.getElementById("user-name");
-      if (nameElement && data && data.data && data.data.name) {
-        console.log("Setting user name to:", data.data.name);
-        nameElement.textContent = data.data.name;
-      } else {
-        console.error("Could not update user name. Element or data missing:", {
-          elementExists: !!nameElement,
-          dataExists: !!data,
-          dataDataExists: data && !!data.data,
-          nameExists: data && data.data && !!data.data.name
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Dashboard script loaded');
+    
+    // Check if user is logged in
+    const token = localStorage.getItem('token');
+    if (!token) {
+        console.log('No token found, redirecting to login');
+        window.location.href = 'login.html';
+        return;
+    }
+    
+    // Get user data from localStorage or fetch from API
+    let userData = null;
+    try {
+        userData = JSON.parse(localStorage.getItem('user'));
+    } catch (e) {
+        console.log('Error parsing user data from localStorage');
+    }
+    
+    // Elements
+    const userNameElement = document.getElementById('user-name');
+    const proposalsList = document.getElementById('proposals-list');
+    const createProposalBtn = document.getElementById('create-proposal-btn');
+    const logoutBtn = document.getElementById('logout-btn');
+    
+    // Set user name from localStorage first (for immediate display)
+    if (userData && userData.name && userNameElement) {
+        console.log('Setting user name from localStorage:', userData.name);
+        userNameElement.textContent = userData.name;
+    } else if (userNameElement) {
+        console.log('No user data in localStorage, setting placeholder');
+        userNameElement.textContent = 'User';
+    }
+    
+    // Fetch current user data from API
+    async function fetchUserData() {
+        try {
+            console.log('Fetching user data from API');
+            const response = await fetch('/api/v1/auth/me', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            
+            if (!response.ok) {
+                throw new Error('Failed to fetch user data');
+            }
+            
+            const data = await response.json();
+            console.log('User data fetched:', data);
+            
+            if (data.success && data.data) {
+                // Update localStorage
+                localStorage.setItem('user', JSON.stringify(data.data));
+                
+                // Update UI
+                if (userNameElement && data.data.name) {
+                    console.log('Updating user name from API:', data.data.name);
+                    userNameElement.textContent = data.data.name;
+                }
+            }
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+        }
+    }
+    
+    // Fetch user proposals
+    async function fetchProposals() {
+        try {
+            console.log('Fetching user proposals');
+            const response = await fetch('/api/v1/proposals', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            
+            if (!response.ok) {
+                throw new Error('Failed to fetch proposals');
+            }
+            
+            const data = await response.json();
+            console.log('Proposals fetched:', data);
+            
+            if (data.success && data.data && proposalsList) {
+                renderProposals(data.data);
+            }
+        } catch (error) {
+            console.error('Error fetching proposals:', error);
+            if (proposalsList) {
+                proposalsList.innerHTML = `
+                    <div class="error-message">
+                        <p>Failed to load proposals. Please try again later.</p>
+                    </div>
+                `;
+            }
+        }
+    }
+    
+    // Render proposals to the list
+    function renderProposals(proposals) {
+        if (!proposalsList) return;
+        
+        if (proposals.length === 0) {
+            proposalsList.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-file-alt"></i>
+                    <h3>No Proposals Yet</h3>
+                    <p>Create your first proposal to get started.</p>
+                    <a href="create.html" class="btn btn-primary">Create Proposal</a>
+                </div>
+            `;
+            return;
+        }
+        
+        let html = '';
+        proposals.forEach(proposal => {
+            const date = new Date(proposal.createdAt).toLocaleDateString();
+            const status = proposal.status || 'draft';
+            
+            html += `
+                <div class="proposal-card">
+                    <div class="proposal-header">
+                        <h3>${proposal.title || 'Untitled Proposal'}</h3>
+                        <span class="proposal-status ${status}">${status}</span>
+                    </div>
+                    <div class="proposal-details">
+                        <p class="proposal-client">${proposal.clientName || 'No client specified'}</p>
+                        <p class="proposal-date">Created: ${date}</p>
+                    </div>
+                    <div class="proposal-actions">
+                        <a href="view-proposal.html?id=${proposal._id}" class="btn btn-outline btn-sm">View</a>
+                        <a href="edit-proposal.html?id=${proposal._id}" class="btn btn-outline btn-sm">Edit</a>
+                        <button class="btn btn-danger btn-sm" data-id="${proposal._id}" onclick="deleteProposal('${proposal._id}')">Delete</button>
+                    </div>
+                </div>
+            `;
         });
-      }
-    })
-    .catch(err => {
-      console.error("Failed to load user data:", err);
-    });
-}
-
-// Load proposals from API
-function loadProposals() {
-  window.ProposalMateAPI.proposals.getAll()
-    .then(response => {
-      const container = document.querySelector(".proposal-list");
-      if (!container) {
-        console.error("Proposal list container not found");
-        return;
-      }
-      
-      container.innerHTML = "";
-      
-      const proposals = response.data || [];
-      
-      if (proposals.length === 0) {
-        container.innerHTML = "<p>No proposals yet. Create your first proposal!</p>";
         
-        // Update stats to show zeros
-        updateStats(0, 0, 0, 0);
-        return;
-      }
-
-      // Count proposals by status
-      let sent = 0, viewed = 0, accepted = 0;
-      
-      proposals.forEach(proposal => {
-        // Count by status
-        if (proposal.status === 'sent') sent++;
-        if (proposal.status === 'viewed') viewed++;
-        if (proposal.status === 'accepted') accepted++;
+        proposalsList.innerHTML = html;
+    }
+    
+    // Delete proposal
+    window.deleteProposal = async function(id) {
+        if (!confirm('Are you sure you want to delete this proposal?')) {
+            return;
+        }
         
-        const div = document.createElement("div");
-        div.classList.add("proposal-item");
-        div.innerHTML = `
-          <div class="proposal-info">
-            <div class="proposal-title">${proposal.title || 'Untitled Proposal'}</div>
-            <div class="proposal-date">Created: ${new Date(proposal.createdAt).toLocaleDateString()}</div>
-          </div>
-          <div class="proposal-status status-${proposal.status || 'draft'}">${proposal.status || 'Draft'}</div>
-          <div class="proposal-actions">
-            <a href="/pages/view-proposal.html?id=${proposal._id}" class="btn-icon"><i class="fas fa-eye"></i></a>
-            <a href="/pages/edit-proposal.html?id=${proposal._id}" class="btn-icon"><i class="fas fa-edit"></i></a>
-            <a href="#" class="btn-icon" onclick="deleteProposal('${proposal._id}')"><i class="fas fa-trash"></i></a>
-          </div>
-        `;
-        container.appendChild(div);
-      });
-      
-      // Update stats
-      updateStats(proposals.length, sent, viewed, accepted);
-    })
-    .catch(err => {
-      console.error("Failed to load proposals:", err);
-      const container = document.querySelector(".proposal-list");
-      if (container) {
-        container.innerHTML = "<p>Error loading proposals. Please try again later.</p>";
-      }
-      
-      // Reset stats on error
-      updateStats(0, 0, 0, 0);
-    });
-}
-
-// Update dashboard statistics
-function updateStats(total, sent, viewed, accepted) {
-  const totalElement = document.querySelector(".stat-totalProposals");
-  const sentElement = document.querySelector(".stat-sentProposals");
-  const viewedElement = document.querySelector(".stat-viewedProposals");
-  const acceptedElement = document.querySelector(".stat-acceptedProposals");
-  
-  if (totalElement) totalElement.textContent = total;
-  if (sentElement) sentElement.textContent = sent;
-  if (viewedElement) viewedElement.textContent = viewed;
-  if (acceptedElement) acceptedElement.textContent = accepted;
-}
-
-// Setup sidebar navigation
-function setupSidebarNavigation() {
-  const links = document.querySelectorAll('.dashboard-link');
-  
-  links.forEach(link => {
-    link.addEventListener('click', function(e) {
-      if (this.textContent === 'Logout') {
-        e.preventDefault();
-        logout();
-      }
-    });
-  });
-}
-
-// Handle logout
-function logout() {
-  localStorage.removeItem('token');
-  window.location.href = '/pages/login.html';
-}
-
-// Delete proposal
-function deleteProposal(id) {
-  if (!confirm('Are you sure you want to delete this proposal?')) {
-    return;
-  }
-  
-  window.ProposalMateAPI.proposals.delete(id)
-    .then(() => {
-      // Reload proposals after successful deletion
-      loadProposals();
-    })
-    .catch(err => {
-      console.error('Error deleting proposal:', err);
-      alert('Failed to delete proposal. Please try again.');
-    });
-}
+        try {
+            const response = await fetch(`/api/v1/proposals/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            
+            if (!response.ok) {
+                throw new Error('Failed to delete proposal');
+            }
+            
+            // Refresh proposals list
+            fetchProposals();
+        } catch (error) {
+            console.error('Error deleting proposal:', error);
+            alert('Failed to delete proposal. Please try again.');
+        }
+    };
+    
+    // Logout function
+    function logout() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        window.location.href = 'login.html';
+    }
+    
+    // Add event listeners
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', logout);
+    }
+    
+    if (createProposalBtn) {
+        createProposalBtn.addEventListener('click', function() {
+            window.location.href = 'create.html';
+        });
+    }
+    
+    // Initialize
+    fetchUserData();
+    fetchProposals();
+});

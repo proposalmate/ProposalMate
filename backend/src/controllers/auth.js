@@ -4,6 +4,7 @@ const asyncHandler = require('../utils/asyncHandler');
 const crypto = require('crypto');
 const sendEmail = require('../utils/sendEmail');
 const config = require('../config/config');
+const mongoose = require('mongoose');
 
 // @desc    Register user
 // @route   POST /api/v1/auth/register
@@ -11,47 +12,73 @@ const config = require('../config/config');
 exports.register = asyncHandler(async (req, res, next) => {
   const { name, email, password } = req.body;
   console.log("Registration attempt for:", email);
-
-  // Create user
-  const user = await User.create({
-    name,
-    email,
-    password
-  });
-
-  // Generate verification token
-  const verificationToken = user.generateVerificationToken();
-  await user.save({ validateBeforeSave: false });
-
-  // Create verification url
-  const verificationUrl = `${config.CLIENT_URL}/verify-email/${verificationToken}`;
-
-  const message = `
-    Thank you for registering with ProposalMate! Please verify your email by clicking the link below:
-    \n\n${verificationUrl}
-    \n\nThis link will expire in 24 hours.
-  `;
+  
+  // Log MongoDB connection status
+  console.log("MongoDB connection state:", mongoose.connection.readyState);
+  // 0 = disconnected, 1 = connected, 2 = connecting, 3 = disconnecting
 
   try {
-    await sendEmail({
-      email: user.email,
-      subject: 'ProposalMate - Email Verification',
-      message
+    // Create user
+    const user = await User.create({
+      name,
+      email,
+      password
     });
 
-    // Start 7-day free trial
-    user.subscriptionStatus = 'trialing';
-    user.trialEndDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days from now
+    console.log("User created successfully:", user._id);
+
+    // Generate verification token
+    const verificationToken = user.generateVerificationToken();
     await user.save({ validateBeforeSave: false });
 
-    sendTokenResponse(user, 200, res);
+    // Create verification url
+    const verificationUrl = `${config.CLIENT_URL}/verify-email/${verificationToken}`;
+
+    const message = `
+      Thank you for registering with ProposalMate! Please verify your email by clicking the link below:
+      \n\n${verificationUrl}
+      \n\nThis link will expire in 24 hours.
+    `;
+
+    try {
+      await sendEmail({
+        email: user.email,
+        subject: 'ProposalMate - Email Verification',
+        message
+      });
+
+      // Start 7-day free trial
+      user.subscriptionStatus = 'trialing';
+      user.trialEndDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days from now
+      await user.save({ validateBeforeSave: false });
+
+      console.log("User registration complete with trial status:", user.subscriptionStatus);
+      sendTokenResponse(user, 200, res);
+    } catch (err) {
+      console.log("Email sending error:", err);
+      user.verificationToken = undefined;
+      user.verificationExpire = undefined;
+      await user.save({ validateBeforeSave: false });
+
+      // Still return success even if email fails
+      console.log("Returning success despite email failure");
+      sendTokenResponse(user, 200, res);
+    }
   } catch (err) {
-    console.log(err);
-    user.verificationToken = undefined;
-    user.verificationExpire = undefined;
-    await user.save({ validateBeforeSave: false });
-
-    return next(new ErrorResponse('Email could not be sent', 500));
+    console.log("User creation error:", err);
+    
+    // Check for duplicate email error
+    if (err.code === 11000) {
+      return next(new ErrorResponse('Email already in use', 400));
+    }
+    
+    // Check for validation errors
+    if (err.name === 'ValidationError') {
+      const messages = Object.values(err.errors).map(val => val.message);
+      return next(new ErrorResponse(messages.join(', '), 400));
+    }
+    
+    return next(new ErrorResponse('Registration failed: ' + err.message, 500));
   }
 });
 
@@ -75,7 +102,7 @@ exports.login = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse('Invalid credentials', 401));
   }
 
-  console.log("User found:", user.name);
+  console.log("User found:", user.name, "ID:", user._id);
   
   // Check if password matches
   const isMatch = await user.matchPassword(password);
@@ -278,7 +305,8 @@ const sendTokenResponse = (user, statusCode, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
-        role: user.role
+        role: user.role,
+        subscriptionStatus: user.subscriptionStatus
       }
     });
 };

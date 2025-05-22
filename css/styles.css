@@ -1,31 +1,20 @@
-/* Update to include accessibility enhancements */
-@import url('accessibility-enhancements.css');
+/* ProposalMate Website Styles - Visual Overhaul */
 
-/* ProposalMate Website Styles */
+/* Import accessibility enhancements */
+@import url('accessibility-enhancements.css');
 
 /* Additional styles beyond layout.css */
 
-/* Neumorphic Button Styles - Wedding UI Refresh */
-:root {
-  --primary-color: #F67280; /* coral rose */
-  --secondary-color: #60B8A2; /* seafoam green */
-  --accent-hover: #C89EC4; /* dusty mauve */
-  --background: #FAFAFA;
-  --text-color: #333333;
-  --shadow-light: #ffffff;
-  --shadow-dark: #d1d9e6;
-}
-
-.neumorphic-btn {
-  background: var(--primary-color);
-  border-radius: 12px;
-  box-shadow: 6px 6px 12px var(--shadow-dark),
-              -6px -6px 12px var(--shadow-light);
-  border: none;
-  color: var(--text-color);
-  padding: 12px 24px;
-  font-size: 1rem;
+/* Soapstone Neumorphic Button Styles */
+.elevated-btn {
+  background: #F8D5DC;
+  color: #333;
   font-weight: 500;
+  border-radius: 14px;
+  box-shadow: 6px 6px 12px rgba(0,0,0,0.08),
+              -6px -6px 12px #ffffff;
+  padding: 14px 28px;
+  border: none;
   transition: all 0.2s ease-in-out;
   cursor: pointer;
   text-align: center;
@@ -33,59 +22,64 @@
   text-decoration: none;
 }
 
-.neumorphic-btn:hover {
-  box-shadow: inset 6px 6px 12px rgba(209, 217, 230, 0.5),
-              inset -6px -6px 12px rgba(255, 255, 255, 0.5);
-  background: var(--accent-hover);
-  cursor: pointer;
+.elevated-btn:hover {
+  background: #E7B4C1;
+  box-shadow: inset 3px 3px 6px rgba(0,0,0,0.1),
+              inset -3px -3px 6px #ffffff;
+  transform: scale(0.98);
 }
 
-.neumorphic-btn:active {
-  box-shadow: inset 4px 4px 8px var(--shadow-dark),
-              inset -4px -4px 8px var(--shadow-light);
-  background: var(--accent-hover);
+.elevated-btn:active {
+  box-shadow: inset 4px 4px 8px rgba(0,0,0,0.1),
+              inset -4px -4px 8px #ffffff;
+  transform: scale(0.98);
 }
 
-.neumorphic-btn:focus {
+.elevated-btn:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(246, 114, 128, 0.3),
-              6px 6px 12px var(--shadow-dark),
-              -6px -6px 12px var(--shadow-light);
+  box-shadow: 0 0 0 3px rgba(248, 213, 220, 0.3),
+              6px 6px 12px rgba(0,0,0,0.08),
+              -6px -6px 12px #ffffff;
 }
 
-.neumorphic-btn-secondary {
-  background: var(--secondary-color);
+/* Ghost Button */
+.ghost-btn {
+  background: transparent;
+  border: 1px solid #ccc;
+  color: #666;
+  border-radius: 10px;
+  padding: 10px 22px;
+  transition: 0.2s;
+  cursor: pointer;
+  text-align: center;
+  display: inline-block;
+  text-decoration: none;
 }
 
-.neumorphic-btn-secondary:hover,
-.neumorphic-btn-secondary:active {
-  background: var(--accent-hover);
+.ghost-btn:hover {
+  border-color: #aaa;
+  color: #333;
 }
 
-.neumorphic-btn-outline {
-  background: var(--background);
-  color: var(--primary-color);
-  border: 2px solid var(--primary-color);
+.ghost-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(204, 204, 204, 0.3);
 }
 
-.neumorphic-btn-outline:hover {
-  background: var(--primary-color);
-  color: var(--text-color);
-}
-
-.neumorphic-btn-small {
+/* Button Size Variations */
+.btn-small {
   padding: 8px 16px;
   font-size: 0.875rem;
 }
 
-.neumorphic-btn-large {
+.btn-large {
   padding: 16px 32px;
   font-size: 1.125rem;
 }
 
 /* Hero Section Enhancements */
 .hero {
-  background: linear-gradient(to right, #f9f9f9, #e6f7ff);
+  background: linear-gradient(to right, #F9EBF2, #FAFAFA);
   position: relative;
   overflow: hidden;
 }
@@ -110,7 +104,7 @@
 
 /* Features Section Enhancements */
 .features-grid {
-  margin-top: 60px;
+  margin-top: 40px;
 }
 
 .feature-card {
@@ -119,11 +113,11 @@
 
 .feature-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
 }
 
 .features-cta {
-  margin-top: 50px;
+  margin-top: 40px;
   text-align: center;
 }
 
@@ -159,22 +153,22 @@
   content: '✓';
   position: absolute;
   left: 0;
-  color: var(--accent-color);
+  color: var(--primary-color);
   font-weight: bold;
 }
 
 /* Testimonials Section */
 .testimonials {
-  padding: 80px 0;
+  padding: 48px 0;
   background-color: var(--light-background);
 }
 
 .testimonial-card {
   max-width: 800px;
   margin: 40px auto 0;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   background-color: white;
   position: relative;
 }
@@ -207,14 +201,13 @@
 
 /* CTA Section */
 .cta-section {
-  padding: 80px 0;
+  padding: 48px 0;
   text-align: center;
-  background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-  color: white;
+  background: linear-gradient(to right, #F8D5DC, #F9EBF2);
+  color: var(--text-color);
 }
 
 .cta-section h2 {
-  color: white;
   margin-bottom: 20px;
 }
 
@@ -224,21 +217,20 @@
   font-size: 1.1rem;
 }
 
-.cta-section .neumorphic-btn {
-  background-color: white;
-  color: var(--primary-color);
-}
-
-.cta-section .neumorphic-btn:hover {
-  background-color: var(--accent-hover);
-  color: var(--text-color);
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 /* Form Styling Enhancements */
-.form-group input:focus {
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
   outline: none;
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 2px rgba(246, 114, 128, 0.2);
+  box-shadow: 0 0 0 3px rgba(248, 213, 220, 0.3);
 }
 
 .social-login {
@@ -251,7 +243,7 @@
   align-items: center;
   justify-content: center;
   padding: 10px 20px;
-  border-radius: 4px;
+  border-radius: 10px;
   margin: 0 10px;
   font-weight: 500;
   text-decoration: none;
@@ -275,14 +267,14 @@
 .dashboard-stats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
+  gap: 16px;
   margin-bottom: 30px;
 }
 
 .stat-card {
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   background-color: white;
 }
 
@@ -346,6 +338,43 @@
   color: #388e3c;
 }
 
+/* Modal Styling */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  overflow: auto;
+}
+
+.modal-container {
+  position: relative;
+  background-color: white;
+  margin: 10% auto;
+  padding: 24px;
+  width: 80%;
+  max-width: 600px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.close-modal {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-size: 1.5rem;
+  color: var(--light-text);
+  cursor: pointer;
+}
+
+.close-modal:hover {
+  color: var(--text-color);
+}
+
 /* Animation Effects */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(20px); }
@@ -354,7 +383,8 @@
 
 .hero h1,
 .hero p,
-.hero .neumorphic-btn {
+.hero .elevated-btn,
+.hero .ghost-btn {
   animation: fadeIn 0.8s ease forwards;
 }
 
@@ -362,80 +392,100 @@
   animation-delay: 0.2s;
 }
 
-.hero .neumorphic-btn {
+.hero .elevated-btn,
+.hero .ghost-btn {
   animation-delay: 0.4s;
+}
+
+/* Utility Classes */
+.text-center {
+  text-align: center;
+}
+
+.mt-48 {
+  margin-top: 48px;
+}
+
+.mb-48 {
+  margin-bottom: 48px;
+}
+
+.mt-24 {
+  margin-top: 24px;
+}
+
+.mb-24 {
+  margin-bottom: 24px;
+}
+
+.mt-16 {
+  margin-top: 16px;
+}
+
+.mb-16 {
+  margin-bottom: 16px;
 }
 
 /* Responsive Enhancements */
 @media (max-width: 768px) {
-  .nav-links {
-    display: none; /* Will be replaced with mobile menu */
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
   }
   
-  .mobile-menu-toggle {
-    display: block;
-    font-size: 1.5rem;
-    color: var(--text-color);
-    cursor: pointer;
-  }
-  
-  .testimonial-card {
-    padding: 20px;
-  }
-  
-  .cta-section {
-    padding: 60px 0;
-  }
-  
-  .neumorphic-btn {
-    padding: 10px 20px;
-    font-size: 0.95rem;
+  .cta-buttons .elevated-btn,
+  .cta-buttons .ghost-btn {
+    width: 100%;
+    max-width: 300px;
   }
 }
 
-/* Mobile Menu (to be controlled by JavaScript) */
-.mobile-menu {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background-color: white;
-  z-index: 100;
-  padding: 20px;
-  transform: translateX(100%);
-  transition: transform 0.3s ease;
-}
-
-.mobile-menu.active {
-  transform: translateX(0);
-}
-
-.mobile-menu-close {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  font-size: 1.5rem;
-  color: var(--text-color);
-  cursor: pointer;
-}
-
-.mobile-menu-links {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-}
-
-.mobile-menu-links a {
-  margin: 10px 0;
-  font-size: 1.2rem;
-  text-decoration: none;
-  color: var(--text-color);
+/* Legacy class support - for backward compatibility */
+.neumorphic-btn,
+.btn-primary {
+  background: #F8D5DC;
+  color: #333;
   font-weight: 500;
+  border-radius: 14px;
+  box-shadow: 6px 6px 12px rgba(0,0,0,0.08),
+              -6px -6px 12px #ffffff;
+  padding: 14px 28px;
+  border: none;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  text-align: center;
+  display: inline-block;
+  text-decoration: none;
 }
 
-.mobile-menu-links a:hover {
-  color: var(--primary-color);
+.neumorphic-btn:hover,
+.btn-primary:hover {
+  background: #E7B4C1;
+  box-shadow: inset 3px 3px 6px rgba(0,0,0,0.1),
+              inset -3px -3px 6px #ffffff;
+  transform: scale(0.98);
+}
+
+.neumorphic-btn-secondary,
+.neumorphic-btn-outline,
+.btn-secondary,
+.btn-outline {
+  background: transparent;
+  border: 1px solid #ccc;
+  color: #666;
+  border-radius: 10px;
+  padding: 10px 22px;
+  transition: 0.2s;
+  cursor: pointer;
+  text-align: center;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.neumorphic-btn-secondary:hover,
+.neumorphic-btn-outline:hover,
+.btn-secondary:hover,
+.btn-outline:hover {
+  border-color: #aaa;
+  color: #333;
 }

@@ -1,11 +1,11 @@
 /* Master CSS for ProposalMate Visual Overhaul */
 
 /* Import all enhanced style modules */
-@import url('enhanced-buttons.css');
-@import url('enhanced-typography.css');
-@import url('enhanced-layout.css');
-@import url('enhanced-components.css');
-@import url('accessibility-enhancements.css');
+@import url('/css/enhanced-buttons.css');
+@import url('/css/enhanced-typography.css');
+@import url('/css/enhanced-layout.css');
+@import url('/css/enhanced-components.css');
+@import url('/css/accessibility-enhancements.css');
 
 /* Base Theme Variables */
 :root {

@@ -2,6 +2,53 @@
 
 /* Additional styles beyond layout.css */
 
+/* Neumorphic Button Styles */
+.neumorphic-btn {
+  background: #F67280;
+  border-radius: 12px;
+  box-shadow: 6px 6px 12px #d1d9e6,
+              -6px -6px 12px #ffffff;
+  border: none;
+  color: #333333;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+}
+
+.neumorphic-btn:hover {
+  box-shadow: inset 6px 6px 12px #d1d9e6,
+              inset -6px -6px 12px #ffffff;
+  background: #C89EC4;
+  cursor: pointer;
+}
+
+.neumorphic-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(246, 114, 128, 0.3),
+              6px 6px 12px #d1d9e6,
+              -6px -6px 12px #ffffff;
+}
+
+.neumorphic-btn:active {
+  box-shadow: inset 6px 6px 12px #d1d9e6,
+              inset -6px -6px 12px #ffffff;
+  background: #C89EC4;
+}
+
+.neumorphic-btn-secondary {
+  background: #60B8A2;
+}
+
+.neumorphic-btn-secondary:hover,
+.neumorphic-btn-secondary:active {
+  background: #C89EC4;
+}
+
 /* Hero Section Enhancements */
 .hero {
   background: linear-gradient(to right, #f9f9f9, #e6f7ff);
@@ -143,20 +190,21 @@
   font-size: 1.1rem;
 }
 
-.cta-section .btn-primary {
+.cta-section .neumorphic-btn {
   background-color: white;
-  color: var(--primary-color);
+  color: #F67280;
 }
 
-.cta-section .btn-primary:hover {
-  background-color: rgba(255, 255, 255, 0.9);
+.cta-section .neumorphic-btn:hover {
+  background-color: #C89EC4;
+  color: #333333;
 }
 
 /* Form Styling Enhancements */
 .form-group input:focus {
   outline: none;
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+  border-color: #F67280;
+  box-shadow: 0 0 0 2px rgba(246, 114, 128, 0.2);
 }
 
 .social-login {
@@ -207,7 +255,7 @@
 .stat-number {
   font-size: 2rem;
   font-weight: 700;
-  color: var(--primary-color);
+  color: #F67280;
   margin-bottom: 5px;
 }
 
@@ -272,7 +320,7 @@
 
 .hero h1,
 .hero p,
-.hero .btn {
+.hero .neumorphic-btn {
   animation: fadeIn 0.8s ease forwards;
 }
 
@@ -280,7 +328,7 @@
   animation-delay: 0.2s;
 }
 
-.hero .btn {
+.hero .neumorphic-btn {
   animation-delay: 0.4s;
 }
 
@@ -303,6 +351,11 @@
   
   .cta-section {
     padding: 60px 0;
+  }
+  
+  .neumorphic-btn {
+    padding: 10px 20px;
+    font-size: 0.9rem;
   }
 }
 
@@ -350,5 +403,5 @@
 }
 
 .mobile-menu-links a:hover {
-  color: var(--primary-color);
+  color: #F67280;
 }

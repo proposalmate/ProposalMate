@@ -1,0 +1,70 @@
+/* Accessibility Enhancements for Neumorphic Buttons */
+
+/* Ensure proper focus states for keyboard navigation */
+.neumorphic-btn:focus,
+.neumorphic-btn-secondary:focus,
+.neumorphic-btn-outline:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(246, 114, 128, 0.4),
+              6px 6px 12px var(--shadow-dark),
+              -6px -6px 12px var(--shadow-light);
+  position: relative;
+  z-index: 2;
+}
+
+/* Improve color contrast for better readability */
+.neumorphic-btn {
+  color: #222222; /* Darker text for better contrast on light backgrounds */
+  font-weight: 600; /* Slightly bolder text for better visibility */
+}
+
+.neumorphic-btn-secondary {
+  color: #222222;
+  font-weight: 600;
+}
+
+/* Ensure proper hover states are visible for all users */
+.neumorphic-btn:hover,
+.neumorphic-btn-secondary:hover,
+.neumorphic-btn-outline:hover {
+  transform: translateY(-2px); /* Subtle movement to indicate interactivity */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Add ARIA support for screen readers */
+[role="button"].neumorphic-btn,
+[role="button"].neumorphic-btn-secondary,
+[role="button"].neumorphic-btn-outline {
+  cursor: pointer;
+}
+
+/* Ensure disabled states are properly indicated */
+.neumorphic-btn:disabled,
+.neumorphic-btn-secondary:disabled,
+.neumorphic-btn-outline:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Cross-browser compatibility fixes */
+.neumorphic-btn,
+.neumorphic-btn-secondary,
+.neumorphic-btn-outline {
+  -webkit-appearance: none; /* Fix for iOS Safari */
+  -moz-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+}
+
+/* Ensure proper touch target sizes for mobile */
+@media (max-width: 768px) {
+  .neumorphic-btn,
+  .neumorphic-btn-secondary,
+  .neumorphic-btn-outline {
+    min-height: 44px; /* Minimum touch target size */
+    min-width: 44px;
+    padding: 12px 20px;
+    margin: 4px; /* Ensure proper spacing between touch targets */
+  }
+}

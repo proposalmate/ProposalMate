@@ -1,6 +1,87 @@
+/* Update to include accessibility enhancements */
+@import url('accessibility-enhancements.css');
+
 /* ProposalMate Website Styles */
 
 /* Additional styles beyond layout.css */
+
+/* Neumorphic Button Styles - Wedding UI Refresh */
+:root {
+  --primary-color: #F67280; /* coral rose */
+  --secondary-color: #60B8A2; /* seafoam green */
+  --accent-hover: #C89EC4; /* dusty mauve */
+  --background: #FAFAFA;
+  --text-color: #333333;
+  --shadow-light: #ffffff;
+  --shadow-dark: #d1d9e6;
+}
+
+.neumorphic-btn {
+  background: var(--primary-color);
+  border-radius: 12px;
+  box-shadow: 6px 6px 12px var(--shadow-dark),
+              -6px -6px 12px var(--shadow-light);
+  border: none;
+  color: var(--text-color);
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  text-align: center;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.neumorphic-btn:hover {
+  box-shadow: inset 6px 6px 12px rgba(209, 217, 230, 0.5),
+              inset -6px -6px 12px rgba(255, 255, 255, 0.5);
+  background: var(--accent-hover);
+  cursor: pointer;
+}
+
+.neumorphic-btn:active {
+  box-shadow: inset 4px 4px 8px var(--shadow-dark),
+              inset -4px -4px 8px var(--shadow-light);
+  background: var(--accent-hover);
+}
+
+.neumorphic-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(246, 114, 128, 0.3),
+              6px 6px 12px var(--shadow-dark),
+              -6px -6px 12px var(--shadow-light);
+}
+
+.neumorphic-btn-secondary {
+  background: var(--secondary-color);
+}
+
+.neumorphic-btn-secondary:hover,
+.neumorphic-btn-secondary:active {
+  background: var(--accent-hover);
+}
+
+.neumorphic-btn-outline {
+  background: var(--background);
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
+}
+
+.neumorphic-btn-outline:hover {
+  background: var(--primary-color);
+  color: var(--text-color);
+}
+
+.neumorphic-btn-small {
+  padding: 8px 16px;
+  font-size: 0.875rem;
+}
+
+.neumorphic-btn-large {
+  padding: 16px 32px;
+  font-size: 1.125rem;
+}
 
 /* Hero Section Enhancements */
 .hero {
@@ -128,7 +209,7 @@
 .cta-section {
   padding: 80px 0;
   text-align: center;
-  background: linear-gradient(to right, var(--primary-color), var(--secondary-accent));
+  background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
   color: white;
 }
 
@@ -143,20 +224,21 @@
   font-size: 1.1rem;
 }
 
-.cta-section .btn-primary {
+.cta-section .neumorphic-btn {
   background-color: white;
   color: var(--primary-color);
 }
 
-.cta-section .btn-primary:hover {
-  background-color: rgba(255, 255, 255, 0.9);
+.cta-section .neumorphic-btn:hover {
+  background-color: var(--accent-hover);
+  color: var(--text-color);
 }
 
 /* Form Styling Enhancements */
 .form-group input:focus {
   outline: none;
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+  box-shadow: 0 0 0 2px rgba(246, 114, 128, 0.2);
 }
 
 .social-login {
@@ -272,7 +354,7 @@
 
 .hero h1,
 .hero p,
-.hero .btn {
+.hero .neumorphic-btn {
   animation: fadeIn 0.8s ease forwards;
 }
 
@@ -280,7 +362,7 @@
   animation-delay: 0.2s;
 }
 
-.hero .btn {
+.hero .neumorphic-btn {
   animation-delay: 0.4s;
 }
 
@@ -303,6 +385,11 @@
   
   .cta-section {
     padding: 60px 0;
+  }
+  
+  .neumorphic-btn {
+    padding: 10px 20px;
+    font-size: 0.95rem;
   }
 }
 

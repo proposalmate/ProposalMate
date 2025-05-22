@@ -1,0 +1,102 @@
+/* Master CSS for ProposalMate Visual Overhaul */
+
+/* Import all enhanced style modules */
+@import url('enhanced-buttons.css');
+@import url('enhanced-typography.css');
+@import url('enhanced-layout.css');
+@import url('enhanced-components.css');
+@import url('accessibility-enhancements.css');
+
+/* Base Theme Variables */
+:root {
+  --primary-color: #F8D5DC;
+  --primary-hover: #E7B4C1;
+  --secondary-color: #60B8A2;
+  --accent-color: #C89EC4;
+  --background: #FAFAFA;
+  --card-background: #FFFFFF;
+  --text-color: #333333;
+  --text-secondary: #666666;
+  --text-light: #888888;
+  --border-color: #E0E0E0;
+  --shadow-sm: 4px 4px 10px rgba(0,0,0,0.05), -4px -4px 10px rgba(255,255,255,0.8);
+  --shadow-md: 8px 8px 16px rgba(0,0,0,0.08), -8px -8px 16px rgba(255,255,255,0.8);
+  --shadow-lg: 12px 12px 24px rgba(0,0,0,0.1), -12px -12px 24px rgba(255,255,255,0.8);
+  --shadow-inset: inset 4px 4px 8px rgba(0,0,0,0.05), inset -4px -4px 8px rgba(255,255,255,0.5);
+  --border-radius-sm: 8px;
+  --border-radius-md: 12px;
+  --border-radius-lg: 16px;
+}
+
+/* Global Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--text-color);
+  background-color: var(--background);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Wedding Theme Specific Overrides */
+.wedding-theme {
+  --primary-color: #F8D5DC;
+  --primary-hover: #E7B4C1;
+}
+
+/* Additional Global Styles */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Selection Styling */
+::selection {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+}
+
+/* Focus Outline for Accessibility */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 3px solid rgba(231, 180, 193, 0.5);
+  outline-offset: 2px;
+}
+
+/* Print Styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    background: white;
+    font-size: 12pt;
+    color: black;
+  }
+  
+  a {
+    color: black;
+    text-decoration: underline;
+  }
+  
+  .container {
+    max-width: 100%;
+    width: 100%;
+  }
+}

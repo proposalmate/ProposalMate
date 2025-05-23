@@ -32,13 +32,8 @@ app.use('/api/v1/auth', require('./routes/auth'));
 app.use('/api/v1/proposals', require('./routes/proposals'));
 app.use('/api/v1/stripe', require('./routes/stripe'));
 
-// Serve static files from public directory in development
-if (process.env.NODE_ENV === 'development') {
-  app.use(express.static(path.join(__dirname, 'public')));
-} else {
-  // In production, serve from the root public directory
-  app.use(express.static(path.join(__dirname, '..', '..', 'public')));
-}
+// Serve static files from Frontend directory in all environments
+app.use(express.static(path.join(__dirname, '..', '..', 'Frontend')));
 
 // For SPA routing - serve index.html for any unmatched routes in production
 if (process.env.NODE_ENV === 'production') {
@@ -51,7 +46,7 @@ if (process.env.NODE_ENV === 'production') {
       });
     }
     
-    res.sendFile(path.resolve(__dirname, '..', '..', 'public', 'index.html'));
+    res.sendFile(path.resolve(__dirname, '..', '..', 'Frontend', 'index.html'));
   });
 }
 

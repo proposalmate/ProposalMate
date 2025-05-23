@@ -1,6 +1,4 @@
-<<<<<<< HEAD
 
-=======
 {
   "name": "proposalmate-backend",
   "version": "1.0.0",
@@ -43,4 +41,4 @@
     "stripe": "^18.0.0"
   }
 }
->>>>>>> 5ac58e0 (update)
+
